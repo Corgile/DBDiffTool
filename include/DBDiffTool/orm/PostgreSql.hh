@@ -8,7 +8,13 @@
 
 #include <string>
 
+namespace orm {
 struct PostgreSQL {
+    static std::string_view Name() {
+        static std::string name{"PostgreSQL"};
+        return name;
+    }
+
     /// all schemas
     static std::string const& all_schema() {
         static const std::string sql{"SELECT 1;"};
@@ -16,10 +22,11 @@ struct PostgreSQL {
     }
 
     /// table
-    static std::string const& all_tables() {
+    static std::string_view all_tables() {
         static const std::string sql{"SELECT 1;"};
         return sql;
     }
 };
+}
 
 #endif //DBDIFFTOOL_POSTGRESQL_HH

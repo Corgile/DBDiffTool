@@ -6,15 +6,12 @@
 #ifndef DBDIFFTOOL_UTIL_HH
 #define DBDIFFTOOL_UTIL_HH
 
-#include <cassert>
-#include <DBLayer/DBLayer.h>
 #include <DBDiffTool/common/Global.hh>
+#include <DBLayer/DBLayer.h>
+#include <cassert>
 #include <github/mcmtroffaes/inipp.hh>
 
-enum struct Lang {
-    CN,
-    EN
-};
+enum struct Lang { CN, EN };
 
 namespace util {
 using namespace db_layer;
@@ -24,7 +21,7 @@ namespace detail {
 template <typename T, Lang locale = Lang::EN>
 constexpr std::string nameof() {
     std::string_view name{typeid(T).name()};
-    auto const qualifier{name.find_first_of(' ') + 1};
+    auto const       qualifier{name.find_first_of(' ') + 1};
     name.remove_prefix(qualifier);
     if constexpr (locale == Lang::CN) {
         return std::string{glb::name2cn.at(name)};
@@ -48,8 +45,8 @@ std::string no_such() {
     assert(false); // unreachable
 }
 
-void Load(ini_section const& sec, DBParam& param);
-}
+void Load(ini_section const &sec, DBParam &param);
+} // namespace detail
 
 template <typename T, Lang locale>
 std::string absent() {
@@ -61,7 +58,11 @@ std::string present(std::string_view value) {
     return {value.data()};
 }
 
-void LoadConfig(DBParam& dsa, DBParam& dsb);
-}
+void LoadConfig(DBParam &dsa, DBParam &dsb);
 
-#endif //DBDIFFTOOL_UTIL_HH
+void TraverseResultSet(CConnect *conn, const std::function<void()> &func);
+
+void SplitString(std::string_view str, std::vector<std::string> &tokens);
+} // namespace util
+
+#endif // DBDIFFTOOL_UTIL_HH

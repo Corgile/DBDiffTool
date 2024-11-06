@@ -8,18 +8,25 @@
 
 #include <string>
 
+namespace orm {
 struct SQLite {
+    static std::string_view Name() {
+        static std::string name{"SQLite"};
+        return name;
+    }
+
     /// all schemas
-    static std::string const& all_schema() {
+    static std::string_view all_schema() {
         static const std::string sql{"SELECT 1;"};
         return sql;
     }
 
     /// table
-    static std::string const& all_tables() {
+    static std::string_view all_tables() {
         static const std::string sql{"SELECT 1;"};
         return sql;
     }
 };
+}
 
 #endif //DBDIFFTOOL_SQLITE_HH

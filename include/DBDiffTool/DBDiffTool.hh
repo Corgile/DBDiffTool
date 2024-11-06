@@ -9,5 +9,7 @@
 #include <DBDiffTool/common/Util.hh>
 #include <DBDiffTool/object/Object.hh>
 #include <DBDiffTool/DataSource.hh>
+#include <DBDiffTool/orm/orm.hh>
+#include <DBDiffTool/impl/impl.hh>
 
 #endif //DBDIFFTOOL_DBDIFFTOOL_HH
