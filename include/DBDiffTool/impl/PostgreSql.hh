@@ -43,6 +43,7 @@ public:
             };
             schema.AddTable(std::move(table));
         });
+        return schemas;
     }
 
 private:
