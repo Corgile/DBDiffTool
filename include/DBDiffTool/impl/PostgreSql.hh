@@ -5,7 +5,9 @@
 
 #ifndef POSTGRESQL_HH
 #define POSTGRESQL_HH
+
 #include <DBDiffTool/common/Macros.hh>
+#include <DBDiffTool/orm/Type.hh>
 
 namespace db {
 namespace impl {
@@ -35,8 +37,7 @@ public:
 private:
     void FillTableList(std::vector<schema_t>& schemas,
                        orm::type const        t) const {
-        ENSURE_QUERY(connect_, orm::PostgreSQL::schema_list(t));
-        int         schema_idx{ 0 };
+        ENSURE_QUERY(connect_, orm::PostgreSQL::schema_sql(t));
         auto        schema{ std::make_shared<Schema>() };
         std::string last_schema{ connect_->GetString(0) };
         util::TraverseResultSet(connect_, [&]() -> void {
@@ -45,7 +46,7 @@ private:
                 schema->SetName(last_schema);
                 schemas.emplace_back(std::move(schema));
                 schema = std::make_shared<Schema>();
-                schema_map_.emplace(last_schema, schema_idx++);
+                schema_map_.emplace(last_schema, schemas.back());
                 last_schema = curr_schema;
             }
             auto const table_name{ connect_->GetString(1) };
@@ -63,7 +64,7 @@ private:
         ENSURE_QUERY(connect_, orm::PostgreSQL::sequence_sql());
         util::TraverseResultSet(connect_, [&]() -> void {
             auto const  curr_schema{ connect_->GetString(0) };
-            auto const& schema{ schemas.at(schema_map_.at(curr_schema)) };
+            auto const& schema{ schema_map_.at(curr_schema) };
             schema->EmplaceSequence(    //
                 connect_->GetString(1), // seq_name
                 connect_->GetInt64(2),  // seq_min
@@ -78,7 +79,7 @@ private:
         ENSURE_QUERY(connect_, orm::PostgreSQL::procedure_sql());
         util::TraverseResultSet(connect_, [&]() -> void {
             auto const  curr_schema{ connect_->GetString(0) };
-            auto const& schema{ schemas.at(schema_map_.at(curr_schema)) };
+            auto const& schema{ schema_map_.at(curr_schema) };
             schema->EmplaceProcedure(   //
                 connect_->GetString(1), // procedure_name
                 connect_->GetString(2)  // procedure_md5
@@ -117,8 +118,8 @@ private: // NOLINT
     DBParam   param_{};
     CConnect* connect_{};
 
-    std::map<std::string, int> mutable schema_map_{};
     std::map<std::string, table_t> mutable table_map_{};
+    std::map<std::string, schema_t> mutable schema_map_{};
 };
 } // namespace impl
 

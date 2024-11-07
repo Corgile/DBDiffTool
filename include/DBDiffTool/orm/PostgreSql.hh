@@ -8,15 +8,16 @@
 
 #include <string>
 
+#include <DBDiffTool/orm/Type.hh>
+
 namespace orm {
-enum struct type { table, view };
 struct PostgreSQL {
     static std::string_view Name() {
         static std::string name{ "PostgreSQL" };
         return name;
     }
     /// 第一级元数据 - schema_table / schema_view
-    static std::string const& schema_list(type const t) {
+    static std::string const& schema_sql(type const t) {
         static const std::string table{
             R"(
 WITH a AS (
