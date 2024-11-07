@@ -6,10 +6,9 @@
 #ifndef DBDIFFTOOL_PROCEDURE_HH
 #define DBDIFFTOOL_PROCEDURE_HH
 
-
-class Procedure {
-
+struct Procedure {
+    std::string procedure_name_;
+    std::string procedure_md5_;
 };
 
-
-#endif //DBDIFFTOOL_PROCEDURE_HH
+#endif // DBDIFFTOOL_PROCEDURE_HH

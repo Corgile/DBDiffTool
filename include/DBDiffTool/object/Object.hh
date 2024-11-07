@@ -13,8 +13,6 @@
 #include <DBDiffTool/object/Sequence.hh>
 #include <DBDiffTool/object/Table.hh>
 #include <DBDiffTool/object/Trigger.hh>
-
-template <typename DBO>
-struct Object {};
+#include <DBDiffTool/object/Node.hh>
 
 #endif //DBDIFFTOOL_OBJECT_HH

@@ -6,10 +6,10 @@
 #ifndef DBDIFFTOOL_INDEX_HH
 #define DBDIFFTOOL_INDEX_HH
 
-
-class Index {
-
+struct Index {
+    std::string index_name_;
+    std::string indexed_fields_;
+    std::string index_md5_;
 };
 
-
-#endif //DBDIFFTOOL_INDEX_HH
+#endif // DBDIFFTOOL_INDEX_HH

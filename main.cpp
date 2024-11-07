@@ -7,6 +7,7 @@ int main(int argc, char* const* argv) {
     // 手动反射
     DataSource<db::PostgreSQL> dsA{ std::move(paramA) };
     DataSource<db::PostgreSQL> dsB{ std::move(paramB) };
+    auto const list{ dsA.SchemaList(orm::type::view) };
     std::cout << "Hello, World!" << std::endl;
     return 0;
 }

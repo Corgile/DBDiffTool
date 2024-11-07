@@ -19,10 +19,10 @@ concept is_string_like = requires(T a) {
 };
 
 template <typename T>
-concept ConcreteDB = requires(T db) {
+concept ConcreteDB = requires(T db, orm::type t) {
     { T::Name() } -> is_string_like;
     { db.Name() } -> is_string_like;
-    { db.SchemaList() } -> std::same_as<std::vector<Schema>>;
+    { db.SchemaList(t) } -> std::same_as<std::vector<Schema>>;
 } and requires(DBParam&& param) {
     { T(std::move(param)) } -> std::convertible_to<T>;
     { T(std::forward<DBParam>(param)) } -> std::convertible_to<T>;
@@ -36,7 +36,9 @@ public:
 
     ND std::string_view Name() const { return dsImpl_.Name(); }
 
-    ND std::vector<Schema> SchemaList() const { return dsImpl_.SchemaList(); }
+    ND std::vector<Schema> SchemaList(orm::type const t) const {
+        return dsImpl_.SchemaList(t);
+    }
 
     ND DBTYPE Type() const { return db_type_; }
 
