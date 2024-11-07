@@ -14,14 +14,14 @@
 using namespace db_layer;
 
 template <typename T>
-concept ConcreteDS = requires(T db) {
-    { db.SchemaList() } -> std::same_as<std::vector<std::string>>;
+concept ConcreteDB = requires(T db) {
+    { db.SchemaList() } -> std::same_as<std::vector<Schema>>;
     { db.Name() } -> std::same_as<std::string>;
 } and requires(DBParam &&param) {
     { T(param) } -> std::convertible_to<T>;
 };
 
-template <ConcreteDS DataBase>
+template <typename  DataBase>
 class DataSource final {
 public:
     explicit DataSource(DBParam &&param) :
@@ -31,20 +31,20 @@ public:
 
     ND std::vector<Schema> SchemaList() const { return dsImpl_.SchemaList(); }
 
-    ND DBType Type() const { return db_type_; }
+    ND DBTYPE Type() const { return db_type_; }
 
     ~DataSource() = default;
 
 private:
     ND bool IsRemote() const {
-        bool const offline{Type() == DBType::SQLITE3 or
-                           Type() == DBType::SQLCIPHER};
+        bool const offline{Type() == DBType::SQLite or
+                           Type() == DBType::SQLCipher3};
         return not offline;
     }
 
 private: // NOLINT
     DataBase dsImpl_;
-    DBType   db_type_;
+    DBTYPE   db_type_;
 };
 
 #endif // DBDIFFTOOL_DATASOURCE_HH

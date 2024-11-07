@@ -32,9 +32,9 @@ constexpr std::string nameof() {
 template <typename T, Lang locale>
 std::string no_such() {
     if constexpr (locale == Lang::CN) {
-        std::string ret{"没有此【"};
+        std::string ret{"û�дˡ�"};
         ret.append(nameof<T, Lang::CN>());
-        ret.append("】");
+        ret.append("��");
         return ret;
     } else if constexpr (locale == Lang::EN) {
         std::string ret{"No such["};

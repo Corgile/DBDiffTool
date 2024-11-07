@@ -11,8 +11,9 @@
 #include <DBLayer/DBLayer.h>
 
 namespace glb {
+using DBTYPE = db_layer::DBType::Type;
 extern const std::unordered_map<std::string_view, std::string_view> name2cn;
-extern const std::unordered_map<std::string_view, db_layer::DBType> str2enum;
+extern const std::unordered_map<std::string_view, DBTYPE> str2enum;
 extern bool heterogeneous;
 }
 #endif //DBDIFFTOOL_GLOBAL_HH

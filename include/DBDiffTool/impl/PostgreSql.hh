@@ -11,12 +11,10 @@ namespace db {
 namespace impl {
 class PostgreSQL {
 public:
-    explicit PostgreSQL(DBParam &&param) : param_{std::move(param)} {
+    explicit PostgreSQL(DBParam&& param) : param_{ std::move(param) } {
         DBLayer_Init(param_, instanceId_);
         connect_ = DBLayer_ApplyConn(instanceId_);
     }
-
-    ~PostgreSQL() = default;
 
     void SetParam(DBParam param) { param_ = std::move(param); }
 
@@ -26,12 +24,12 @@ public:
         std::vector<Schema> schemas;
         ENSURE_QUERY(connect_, orm::PostgreSQL::all_schema());
         Schema      schema;
-        std::string curr_schema{connect_->GetString(0)};
+        std::string curr_schema{ connect_->GetString(0) };
         util::TraverseResultSet(connect_, [&]() -> void {
-            auto const schema_name{connect_->GetString(0)};
-            if (curr_schema not_eq schema_name) {
+            std::string schema_name{ connect_->GetString(0) };
+            if (schema_name not_eq curr_schema) {
                 schemas.emplace_back(schema);
-                schema_map_.emplace(schema_name, schemas.back());
+                // schema_map_.emplace(curr_schema, schemas.back());
                 curr_schema = schema_name;
             }
             Table table{
@@ -46,13 +44,15 @@ public:
         return schemas;
     }
 
+    ~PostgreSQL() = default;
+
 private:
     int       instanceId_{};
     bool      initialized_{};
     DBParam   param_;
-    CConnect *connect_;
+    CConnect* connect_;
 
-    std::map<std::string, Schema &> schema_map_;
+    std::map<std::string, Schema&> schema_map_;
 };
 } // namespace impl
 

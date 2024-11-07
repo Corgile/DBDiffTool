@@ -26,7 +26,7 @@ struct Table {
         util::SplitString(nulls, null_vec);
         if (name_vec.size() not_eq types.size() and
             name_vec.size() not_eq nulls.size()) [[unlikely]] {
-            throw std::logic_error{"è§£æå­—æ®µé”™è¯¯,å› è¯¥æ˜¯SQLå†™é”™äº†"};
+            throw std::logic_error{"½âÎö×Ö¶Î´íÎó,Òò¸ÃÊÇSQLĞ´´íÁË"};
         }
         for (std::size_t i = 0; i < name_vec.size(); ++i) {
             columns_.emplace_back(name_vec[i], type_vec[i], null_vec[i]);
