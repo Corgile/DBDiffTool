@@ -7,9 +7,9 @@
 #define DBDIFFTOOL_COLUMN_HH
 
 struct Column {
-    std::string name_;
-    std::string type_;
-    std::string null_;
+    std::string name_{};
+    std::string type_{};
+    std::string null_{};
 };
 using Field = Column;
 

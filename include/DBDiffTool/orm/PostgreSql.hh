@@ -6,7 +6,6 @@
 #ifndef DBDIFFTOOL_POSTGRESQL_HH
 #define DBDIFFTOOL_POSTGRESQL_HH
 
-#include <array>
 #include <string>
 
 namespace orm {
@@ -112,6 +111,23 @@ WITH index_info AS (
 ) SELECT table_name, index_name, indexed_fields, index_md5
 FROM index_info ORDER BY LENGTH(table_name), table_name, LENGTH(index_name),index_name;)"
         };
+        return sql;
+    }
+
+    /// 第二级元数据 - 触发器
+    static std::string const& trigger_sql() {
+        static std::string sql{ R"(
+SELECT
+    tbl.relname AS table_name,
+    trig.tgname AS trigger_name,
+    MD5(pg_get_triggerdef(trig.oid)) AS trigger_md5
+FROM pg_trigger trig
+JOIN pg_proc prc ON prc.oid = trig.tgfoid
+JOIN pg_class tbl ON tbl.oid = trig.tgrelid
+JOIN pg_namespace ns ON ns.oid = tbl.relnamespace
+WHERE ns.nspname NOT IN ('pg_toast', 'pg_catalog', 'information_schema')
+    AND trig.tgname NOT LIKE 'RI_ConstraintTrigger_%'
+ORDER BY LENGTH(tbl.relname),table_name,LENGTH(trig.tgname),trigger_name;)" };
         return sql;
     }
 };

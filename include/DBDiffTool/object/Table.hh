@@ -6,19 +6,21 @@
 #ifndef DBDIFFTOOL_TABLE_HH
 #define DBDIFFTOOL_TABLE_HH
 
+#include <memory>
+
 #include <DBDiffTool/object/Column.hh>
 #include <DBDiffTool/object/Index.hh>
 #include <DBDiffTool/object/Trigger.hh>
 
 struct Table {
-    std::string         s_name_;
-    std::string         t_name_;
-    std::vector<Index>  indexes_;
-    std::vector<Column> columns_;
+    std::string          table_name_{};
+    std::vector<Column>  columns_{};
+    std::vector<Index>   indexes_{};
+    std::vector<Trigger> triggers_{};
 
-    Table(std::string_view s_name, std::string_view t_name,
-          std::string_view names, std::string_view types,
-          std::string_view nulls) : s_name_{ s_name }, t_name_{ t_name } {
+    Table(std::string_view t_name, std::string_view names,
+          std::string_view types, std::string_view nulls) :
+        table_name_{ t_name } {
         std::vector<std::string> name_vec;
         std::vector<std::string> type_vec;
         std::vector<std::string> null_vec;
@@ -36,9 +38,16 @@ struct Table {
 
     template <typename... Args>
     void EmplaceIndex(Args&&... args) {
-        columns_.emplace_back(std::forward<Args>(args)...);
+        indexes_.emplace_back(std::forward<Args>(args)...);
+    }
+
+    template <typename... Args>
+    void EmplaceTrigger(Args&&... args) {
+        triggers_.emplace_back(std::forward<Args>(args)...);
     }
 };
-using View = Table;
+using View    = Table;
+using table_t = std::shared_ptr<Table>;
+using view_t = std::shared_ptr<View>;
 
 #endif // DBDIFFTOOL_TABLE_HH

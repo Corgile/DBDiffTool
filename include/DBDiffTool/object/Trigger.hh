@@ -6,10 +6,9 @@
 #ifndef DBDIFFTOOL_TRIGGER_HH
 #define DBDIFFTOOL_TRIGGER_HH
 
-
-class Trigger {
-
+struct Trigger {
+    std::string trigger_name_{};
+    std::string trigger_md5_{};
 };
 
-
-#endif //DBDIFFTOOL_TRIGGER_HH
+#endif // DBDIFFTOOL_TRIGGER_HH

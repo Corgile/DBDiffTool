@@ -15,11 +15,12 @@
 
 class Schema final : public Node {
 public:
+    void SetName(std::string_view name) { schema_name_ = name; }
+
     template <typename... Args>
     void EmplaceTable(Args&&... args) {
-        tables_.emplace_back(std::forward<Args>(args)...);
-        Table& table{ tables_.back() };
-        table_map_.emplace(table.t_name_, table);
+        tables_.emplace_back(
+            std::make_shared<Table>(std::forward<Args>(args)...));
     }
 
     template <typename... Args>
@@ -32,20 +33,13 @@ public:
         procedure_.emplace_back(std::forward<Args>(args)...);
     }
 
-    template <typename... Args>
-    void AddIndexToTable(std::string_view t_name, Args&&... args) {
-        Table& table{ table_map_.at(t_name) };
-        table.EmplaceIndex(std::forward<Args>(args)...);
-    }
-
-    Table& UnCachedTable() { return tables_.back(); }
+    table_t Last() { return tables_.back(); }
 
 private:
-    std::vector<Table>     tables_;
-    std::vector<Sequence>  sequences_;
-    std::vector<Procedure> procedure_;
-    /// mapping / cache
-    std::map<std::string_view, Table&> table_map_;
+    std::string            schema_name_{};
+    std::vector<table_t>   tables_{};
+    std::vector<Sequence>  sequences_{};
+    std::vector<Procedure> procedure_{};
 };
 
 using schema_t = std::shared_ptr<Schema>;

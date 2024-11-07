@@ -7,9 +7,9 @@
 #define DBDIFFTOOL_INDEX_HH
 
 struct Index {
-    std::string index_name_;
-    std::string indexed_fields_;
-    std::string index_md5_;
+    std::string index_name_{};
+    std::string indexed_fields_{};
+    std::string index_md5_{};
 };
 
 #endif // DBDIFFTOOL_INDEX_HH

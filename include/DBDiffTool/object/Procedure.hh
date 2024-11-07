@@ -7,8 +7,8 @@
 #define DBDIFFTOOL_PROCEDURE_HH
 
 struct Procedure {
-    std::string procedure_name_;
-    std::string procedure_md5_;
+    std::string procedure_name_{};
+    std::string procedure_md5_{};
 };
 
 #endif // DBDIFFTOOL_PROCEDURE_HH

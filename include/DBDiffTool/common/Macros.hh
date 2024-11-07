@@ -10,8 +10,8 @@
 
 #define HANDLE_ERROR(conn)                                                     \
     do {                                                                       \
-        int         ec;                                                        \
-        std::string em;                                                        \
+        int         ec{};                                                      \
+        std::string em{};                                                      \
         conn->GetLastError(ec, em);                                            \
         std::fprintf(stderr, "Execute Error: %d - %s\n", ec, em.c_str());      \
     } while (false)
