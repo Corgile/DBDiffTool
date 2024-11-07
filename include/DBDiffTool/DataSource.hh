@@ -14,20 +14,27 @@
 using namespace db_layer;
 
 template <typename T>
-concept ConcreteDB = requires(T db) {
-    { db.SchemaList() } -> std::same_as<std::vector<Schema>>;
-    { db.Name() } -> std::same_as<std::string>;
-} and requires(DBParam &&param) {
-    { T(param) } -> std::convertible_to<T>;
+concept is_string_like = requires(T a) {
+    { std::string{ a } } -> std::convertible_to<std::string>;
 };
 
-template <typename  DataBase>
+template <typename T>
+concept ConcreteDB = requires(T db) {
+    { T::Name() } -> is_string_like;
+    { db.Name() } -> is_string_like;
+    { db.SchemaList() } -> std::same_as<std::vector<Schema>>;
+} and requires(DBParam&& param) {
+    { T(std::move(param)) } -> std::convertible_to<T>;
+    { T(std::forward<DBParam>(param)) } -> std::convertible_to<T>;
+};
+
+template <ConcreteDB DataBase>
 class DataSource final {
 public:
-    explicit DataSource(DBParam &&param) :
-        dsImpl_{std::move(param)}, db_type_{param.db_type} {}
+    explicit DataSource(DBParam&& param) :
+        dsImpl_{ std::move(param) }, db_type_{ param.db_type } {}
 
-    ND std::string Name() const { return dsImpl_.Name(); }
+    ND std::string_view Name() const { return dsImpl_.Name(); }
 
     ND std::vector<Schema> SchemaList() const { return dsImpl_.SchemaList(); }
 
@@ -37,8 +44,8 @@ public:
 
 private:
     ND bool IsRemote() const {
-        bool const offline{Type() == DBType::SQLite or
-                           Type() == DBType::SQLCipher3};
+        bool const offline{ Type() == DBType::SQLite or
+                            Type() == DBType::SQLCipher3 };
         return not offline;
     }
 
