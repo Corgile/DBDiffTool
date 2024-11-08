@@ -84,6 +84,12 @@ struct Equal {
 
 template <typename T>
     requires shared_ptr_to_aggregate<T>
+void Compare(std::vector<T> const& listA, std::vector<T> const& listB,
+             std::stringstream& diff, std::string_view dsa,
+             std::string_view dsb, std::string prefix = "");
+
+template <typename T>
+    requires shared_ptr_to_aggregate<T>
 void CompareCommon(iterator<T> const& it_a, iterator<T> const& it_b,
                    std::stringstream& diff, std::string_view dsa,
                    std::string_view dsb, std::string pfx) {
@@ -111,7 +117,7 @@ template <typename T>
     requires shared_ptr_to_aggregate<T>
 void Compare(std::vector<T> const& listA, std::vector<T> const& listB,
              std::stringstream& diff, std::string_view dsa,
-             std::string_view dsb, std::string prefix = "") {
+             std::string_view dsb, std::string prefix) {
     using OBJ = typename T::template element_type;
     std::stringstream ss;
     ss << OBJ::prefix() << prefix << "." << BLUB

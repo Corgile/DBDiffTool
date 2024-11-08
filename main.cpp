@@ -4,23 +4,30 @@
 
 #include <DBDiffTool/DBDiffTool.hh>
 #include <DBDiffTool/common/Util.hh>
+#include <DBDiffTool/factory/DBFactory.hh>
+
+#include <variant>
 
 int main(int argc, char* const* argv) {
     SetConsoleCP(65001);
     system("chcp 65001 > nul");
     DBParam paramA, paramB;
     util::LoadConfig(paramA, paramB);
-    // todo: 模板参数应该根据DBParam的db_type反射, 暂时没做.
-    DataSource<db::PostgreSQL> dsA{ std::move(paramA) };
-    DataSource<db::SQLite>     dsB{ std::move(paramB) };
 
-    glb::heterogeneous = dsA.Type() not_eq dsB.Type();
+    glb::heterogeneous = paramA.db_type not_eq paramB.db_type;
 
-    auto const listA{ dsA.SchemaList(orm::type::table) };
-    auto const listB{ dsB.SchemaList(orm::type::table) };
+    DataSourceVariant dsA{ CreateDataSource(paramA) };
+    DataSourceVariant dsB{ CreateDataSource(paramB) };
 
+    std::vector<schema_t> listA, listB;
+    std::visit([&](auto& ds) { listA = ds.SchemaList(orm::type::table); }, dsA);
+    std::visit([&](auto& ds) { listB = ds.SchemaList(orm::type::table); }, dsB);
+
+    std::string_view name_a, name_b;
+    std::visit([&](auto& ds) { name_a = ds.Name(); }, dsA);
+    std::visit([&](auto& ds) { name_b = ds.Name(); }, dsB);
     std::stringstream diff;
-    compare::Compare(listA, listB, diff, dsA.Name(), dsB.Name());
+    compare::Compare(listA, listB, diff, name_a, name_b);
     std::cout << diff.str() << std::endl;
     return 0;
 }

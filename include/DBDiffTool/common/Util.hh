@@ -7,6 +7,7 @@
 #define DBDIFFTOOL_UTIL_HH
 
 #include <filesystem>
+#include <functional>
 #include <vector>
 
 #include <DBLayer/DBLayer.h>

@@ -11,6 +11,7 @@
 #include <DBLayer/DBLayer.h>
 
 #include <DBDiffTool/common/Macros.hh>
+#include <DBDiffTool/common/Global.hh>
 #include <DBDiffTool/common/Traits.hh>
 #include <DBDiffTool/object/Object.hh>
 #include <DBDiffTool/orm/Type.hh>
