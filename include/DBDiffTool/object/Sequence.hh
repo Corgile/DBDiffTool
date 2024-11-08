@@ -34,7 +34,7 @@ struct Sequence {
 };
 
 using sequence_t = std::shared_ptr<Sequence>;
-namespace sn {
+namespace sn { // short name
 using seq_t = sequence_t;
 }
 

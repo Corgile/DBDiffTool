@@ -1,7 +1,9 @@
-﻿#include <DBDiffTool/DBDiffTool.hh>
-#include <DBDiffTool/common/Util.hh>
-#include <Windows.h>
+﻿#include <Windows.h>
+
 #include <iostream>
+
+#include <DBDiffTool/DBDiffTool.hh>
+#include <DBDiffTool/common/Util.hh>
 
 int main(int argc, char* const* argv) {
     SetConsoleCP(65001);
@@ -11,6 +13,8 @@ int main(int argc, char* const* argv) {
     // todo: 模板参数应该根据DBParam的db_type反射, 暂时没做.
     DataSource<db::PostgreSQL> dsA{ std::move(paramA) };
     DataSource<db::SQLite>     dsB{ std::move(paramB) };
+
+    glb::heterogeneous = dsA.Type() not_eq dsB.Type();
 
     auto const listA{ dsA.SchemaList(orm::type::table) };
     auto const listB{ dsB.SchemaList(orm::type::table) };

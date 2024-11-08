@@ -6,13 +6,11 @@
 #ifndef DBDIFFTOOL_UTIL_HH
 #define DBDIFFTOOL_UTIL_HH
 
-#include <cassert>
 #include <filesystem>
 #include <vector>
 
 #include <DBLayer/DBLayer.h>
 
-#include <DBDiffTool/common/Global.hh>
 #include <github/mcmtroffaes/inipp.hh>
 
 enum struct Lang { CN, EN };

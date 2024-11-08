@@ -27,7 +27,7 @@ struct Trigger {
     }
 };
 using trigger_t = std::shared_ptr<Trigger>;
-namespace sn {
+namespace sn { // short name
 using tgr_t = trigger_t;
 }
 #endif // DBDIFFTOOL_TRIGGER_HH

@@ -57,7 +57,7 @@ private:
 
 using schema_t    = std::shared_ptr<Schema>;
 using schema_cref = schema_t const&;
-namespace sn {
+namespace sn { // short name
 using scm_t = schema_t;
 }
 

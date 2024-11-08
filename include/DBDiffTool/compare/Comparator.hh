@@ -7,6 +7,7 @@
 #include <string>
 
 #include <DBDiffTool/common/AnsiColor.hh>
+#include <DBDiffTool/common/Global.hh>
 #include <DBDiffTool/common/Traits.hh>
 #include <DBDiffTool/object/Schema.hh>
 
@@ -89,7 +90,7 @@ void CompareCommon(iterator<T> const& it_a, iterator<T> const& it_b,
     std::stringstream ss;
     ss << WHTB "Comparing same named " CYNB << detail::nameof<T, Lang::EN>()
        << RST ":";
-    std::string new_prefix{ pfx + "." };
+    std::string const new_prefix{ pfx + "." };
     ss << BOLD << new_prefix << (*it_a)->Name() << RST << "\n";
     auto const size_before{ ss.str().size() };
     if constexpr (std::is_same_v<T, schema_t>) {

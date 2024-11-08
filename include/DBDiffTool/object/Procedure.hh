@@ -27,7 +27,7 @@ struct Procedure {
     }
 };
 using procedure_t = std::shared_ptr<Procedure>;
-namespace sn {
+namespace sn { // short name
 using pro_t = procedure_t;
 }
 #endif // DBDIFFTOOL_PROCEDURE_HH

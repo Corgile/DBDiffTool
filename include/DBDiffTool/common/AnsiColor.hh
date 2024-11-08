@@ -34,7 +34,7 @@
 #define BLNK RST ESC "[5m" // 闪烁
 #define RVSE RST ESC "[7m" // 反显
 #define HIDE RST ESC "[8m" // 消隐
-#define DELT RST ESC "[9m" // 划掉
+#define STRK RST ESC "[9m" // 划掉
 
 #else
 

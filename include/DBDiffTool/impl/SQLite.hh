@@ -11,6 +11,8 @@
 #include <ranges>
 #include <thread>
 
+#include <DBLayer/DBLayer.h>
+
 #include <DBDiffTool/common/Macros.hh>
 #include <DBDiffTool/orm/orm.hh>
 

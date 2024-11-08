@@ -30,7 +30,7 @@ struct Index {
 };
 
 using index_t = std::shared_ptr<Index>;
-namespace sn {
+namespace sn { // short name
 using idx_t = index_t;
 }
 

@@ -53,7 +53,7 @@ private:
 using View    = Table;
 using table_t = std::shared_ptr<Table>;
 using view_t  = std::shared_ptr<View>;
-namespace sn {
+namespace sn { // short name
 using tbl_t = table_t;
 }
 

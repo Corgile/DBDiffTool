@@ -7,6 +7,7 @@
 #include <functional>
 #include <sstream>
 
+#include <DBDiffTool/common/Global.hh>
 #include <DBDiffTool/common/Util.hh>
 
 namespace util {

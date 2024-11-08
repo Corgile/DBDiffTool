@@ -31,7 +31,7 @@ struct Column {
 
 using Field   = Column;
 using field_t = std::shared_ptr<Field>;
-namespace sn {
+namespace sn { // short name
 using col_t = field_t;
 }
 

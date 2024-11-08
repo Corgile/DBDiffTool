@@ -6,9 +6,10 @@
 #ifndef DBDIFFTOOL_GLOBAL_HH
 #define DBDIFFTOOL_GLOBAL_HH
 
-#include <DBLayer/DBLayer.h>
 #include <string>
 #include <unordered_map>
+
+#include <DBLayer/DBLayer.h>
 
 namespace glb {
 using DBTYPE = db_layer::DBType::Type;
