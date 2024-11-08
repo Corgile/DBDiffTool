@@ -53,3 +53,7 @@ concept shared_ptr_to_aggregate = requires {
     requires std::is_same_v<std::shared_ptr<typename T::element_type>, T>;
     requires has_key_method<typename T::element_type>;
 };
+
+template <typename T>
+    requires shared_ptr_to_aggregate<T>
+using iterator = typename std::vector<T>::const_iterator;

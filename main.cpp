@@ -8,7 +8,7 @@ int main(int argc, char* const* argv) {
     system("chcp 65001 > nul");
     DBParam paramA, paramB;
     util::LoadConfig(paramA, paramB);
-    // todo: 手动反射
+    // todo: 模板参数应该根据DBParam的db_type反射, 暂时没做.
     DataSource<db::PostgreSQL> dsA{ std::move(paramA) };
     DataSource<db::SQLite>     dsB{ std::move(paramB) };
 
@@ -16,8 +16,6 @@ int main(int argc, char* const* argv) {
     auto const listB{ dsB.SchemaList(orm::type::table) };
 
     std::stringstream diff;
-    std::cout << std::setw(50) << glb::enum2str.at(dsA.Type());
-    std::cout << " | " << glb::enum2str.at(dsB.Type()) << "\n";
     compare::Compare(listA, listB, diff, dsA.Name(), dsB.Name());
     std::cout << diff.str() << std::endl;
     return 0;

@@ -6,6 +6,7 @@
 
 #ifndef ANSI_COLOR_HH
 #define ANSI_COLOR_HH
+#if defined(ANSI_COLOR_ON)
 
 #define ESC "\x1B"
 
@@ -28,11 +29,39 @@
 #define WHTB RST ESC "[1;37m" // 白色（加亮）
 
 #define BOLD RST ESC "[1m" // 设置高亮度（加粗）
-// #define G ESC "[2m" // 设置低亮度
-// #define U ESC "[4m" // 下划线
-// #define S ESC "[5m" // 闪烁
-// #define R ESC "[7m" // 反显
-// #define H ESC "[8m" // 消隐
-// #define D ESC "[9m" // 划掉
+#define GLOW RST ESC "[2m" // 设置低亮度
+#define UNDL RST ESC "[4m" // 下划线
+#define BLNK RST ESC "[5m" // 闪烁
+#define RVSE RST ESC "[7m" // 反显
+#define HIDE RST ESC "[8m" // 消隐
+#define DELT RST ESC "[9m" // 划掉
 
+#else
+
+#define ESC     ""
+#define RST     ""
+#define BLK     ""
+#define RED     ""
+#define GRN     ""
+#define YLW     ""
+#define BLU     ""
+#define PRP     ""
+#define CYN     ""
+#define WHT     ""
+#define BLKB    ""
+#define REDB    ""
+#define GRNB    ""
+#define YLWB    ""
+#define BLUB    ""
+#define PRPB    ""
+#define CYNB    ""
+#define WHTB    ""
+#define BOLD    ""
+#define GLOW    ""
+#define UNDL    ""
+#define BLNK    ""
+#define RVSE    ""
+#define HIDE    ""
+#define DELT    ""
+#endif
 #endif
