@@ -16,10 +16,26 @@
 
 class Schema final {
 public:
-    Schema() = default;
+    Schema();
 
     void SetName(std::string_view name);
+    template <typename T, typename... Args>
+    auto& Emplace(Args&&... args) {
+        // static std::shared_ptr<T> error_instance{};
+        if constexpr (std::is_same_v<T, Table>) {
+            return tables_.emplace_back(MAKE_SHARED);
+        }
+        if constexpr (std::is_same_v<T, Sequence>) {
+            return sequences_.emplace_back(MAKE_SHARED);
+        }
+        if constexpr (std::is_same_v<T, Procedure>) {
+            return procedure_.emplace_back(MAKE_SHARED);
+        }
+        // unreachable
+        // return error_instance;
+    }
 
+    /*
     template <typename... Args>
     void EmplaceTable(Args&&... args) {
         tables_.emplace_back(
@@ -28,26 +44,29 @@ public:
 
     template <typename... Args>
     void EmplaceSequence(Args&&... args) {
-        sequences_.emplace_back(std::forward<Args>(args)...);
+        sequences_.emplace_back(
+            std::make_shared<Sequence>(std::forward<Args>(args)...));
     }
 
     template <typename... Args>
     void EmplaceProcedure(Args&&... args) {
-        procedure_.emplace_back(std::forward<Args>(args)...);
+        procedure_.emplace_back(
+            std::make_shared<Procedure>(std::forward<Args>(args)...));
     }
+    */
 
     table_t Last();
 
     ND std::string_view Name() const;
-    ND std::vector<table_t> Tables() const;
-    ND std::vector<Sequence> Sequences() const;
-    ND std::vector<Procedure> Procedures() const;
+    ND std::vector<table_t> Tbl() const;
+    ND std::vector<sequence_t> Seq() const;
+    ND std::vector<procedure_t> Pro() const;
 
 private:
-    std::string            schema_name_{};
-    std::vector<table_t>   tables_{};
-    std::vector<Sequence>  sequences_{};
-    std::vector<Procedure> procedure_{};
+    std::string              schema_name_{};
+    std::vector<table_t>     tables_{};
+    std::vector<sequence_t>  sequences_{};
+    std::vector<procedure_t> procedure_{};
 };
 
 using schema_t    = std::shared_ptr<Schema>;

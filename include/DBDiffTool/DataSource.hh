@@ -11,15 +11,11 @@
 #include <DBLayer/DBLayer.h>
 
 #include <DBDiffTool/common/Macros.hh>
+#include <DBDiffTool/common/Traits.hh>
 #include <DBDiffTool/object/Object.hh>
 #include <DBDiffTool/orm/Type.hh>
 
 using namespace db_layer;
-
-template <typename T>
-concept is_string_like = requires(T a) {
-    { std::string{ a } } -> std::convertible_to<std::string>;
-};
 
 template <typename T>
 concept ConcreteDB = requires(T db, orm::type t) {

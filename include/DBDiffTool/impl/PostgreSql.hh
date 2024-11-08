@@ -45,19 +45,20 @@ private:
             auto const curr_schema{ connect_->GetString(0) };
             if (curr_schema not_eq last_schema) {
                 schema->SetName(last_schema);
-                schemas.emplace_back(std::move(schema));
+                auto& last{ schemas.emplace_back(std::move(schema)) };
                 schema = std::make_shared<Schema>();
-                schema_map_.emplace(last_schema, schemas.back());
+                schema_map_.emplace(last_schema, last);
                 last_schema = curr_schema;
             }
             auto const table_name{ connect_->GetString(1) };
-            schema->EmplaceTable(       //
-                table_name,             // table_name
-                connect_->GetString(2), // table_fields
-                connect_->GetString(3), // field_types
-                connect_->GetString(4)  // field_nulls
+
+            auto& last = schema->Emplace<Table>( //
+                table_name,                      // table_name
+                connect_->GetString(2),          // table_fields
+                connect_->GetString(3),          // field_types
+                connect_->GetString(4)           // field_nulls
             );
-            table_map_.emplace(table_name, schema->Last());
+            table_map_.emplace(table_name, last);
         });
     }
 
@@ -66,7 +67,7 @@ private:
         util::TraverseResultSet(connect_, [&]() -> void {
             auto const  curr_schema{ connect_->GetString(0) };
             auto const& schema{ schema_map_.at(curr_schema) };
-            schema->EmplaceSequence(    //
+            schema->Emplace<Sequence>(  //
                 connect_->GetString(1), // seq_name
                 connect_->GetInt64(2),  // seq_min
                 connect_->GetInt64(3),  // seq_inc
@@ -81,7 +82,7 @@ private:
         util::TraverseResultSet(connect_, [&]() -> void {
             auto const  curr_schema{ connect_->GetString(0) };
             auto const& schema{ schema_map_.at(curr_schema) };
-            schema->EmplaceProcedure(   //
+            schema->Emplace<Procedure>( //
                 connect_->GetString(1), // procedure_name
                 connect_->GetString(2)  // procedure_md5
             );
@@ -93,7 +94,7 @@ private:
         util::TraverseResultSet(connect_, [&]() -> void {
             auto const     table_name{ connect_->GetString(0) };
             table_t const& table{ table_map_.at(table_name) };
-            table->EmplaceIndex(        //
+            table->Emplace<Index>(      //
                 connect_->GetString(1), // index_name
                 connect_->GetString(2), // indexed_fields
                 connect_->GetString(3)  // index_md5
@@ -106,7 +107,7 @@ private:
         util::TraverseResultSet(connect_, [&]() -> void {
             auto const     table_name{ connect_->GetString(0) };
             table_t const& table{ table_map_.at(table_name) };
-            table->EmplaceTrigger(      //
+            table->Emplace<Trigger>(    //
                 connect_->GetString(1), // trigger_name
                 connect_->GetString(2)  // trigger_md5
             );

@@ -25,4 +25,5 @@
     if (not conn->ExecuteAffect(sql, affected)) {                              \
         HANDLE_ERROR(conn);                                                    \
     }
+#define MAKE_SHARED std::make_shared<T>(std::forward<Args>(args)...)
 #endif // MACROS_HH

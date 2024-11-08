@@ -6,6 +6,7 @@
 #ifndef DBDIFFTOOL_SEQUENCE_HH
 #define DBDIFFTOOL_SEQUENCE_HH
 
+#include <memory>
 #include <string>
 
 #include <DBDiffTool/common/Macros.hh>
@@ -18,5 +19,7 @@ struct Sequence {
     bool         seq_cycle_{};
     ND std::string_view Name() const;
 };
+
+using sequence_t = std::shared_ptr<Sequence>;
 
 #endif // DBDIFFTOOL_SEQUENCE_HH

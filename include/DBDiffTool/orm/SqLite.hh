@@ -42,10 +42,10 @@ FROM sqlite_sequence ORDER BY LENGTH(name),name;)" };
         static std::string table{ R"(
 SELECT
     m.name AS table_name,
-    GROUP_CONCAT(i.name, ',' ORDER BY i.name) AS table_fields,
-    GROUP_CONCAT(i.type, ',' ORDER BY i.name) AS field_types,
+    GROUP_CONCAT(i.name, ',' ORDER BY LENGTH(i.name),i.name) AS table_fields,
+    GROUP_CONCAT(i.type, ',' ORDER BY LENGTH(i.name),i.name) AS field_types,
     GROUP_CONCAT(CASE WHEN i."notnull" = 0 THEN 'YES'
-    ELSE 'NO' END, ',' ORDER BY i.name) AS field_nulls
+    ELSE 'NO' END, ',' ORDER BY LENGTH(i.name),i.name) AS field_nulls
 FROM sqlite_master AS m
 JOIN pragma_table_info(m.name) AS i
 WHERE m.type = 'table' AND m.name NOT LIKE 'sqlite_%'

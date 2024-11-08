@@ -18,26 +18,29 @@ struct Table {
     Table(std::string_view table_name, std::string_view table_fields,
           std::string_view field_types, std::string_view field_nulls);
 
-    template <typename... Args>
-    void EmplaceIndex(Args&&... args) {
-        indexes_.emplace_back(std::forward<Args>(args)...);
-    }
-
-    template <typename... Args>
-    void EmplaceTrigger(Args&&... args) {
-        triggers_.emplace_back(std::forward<Args>(args)...);
+    template <typename T, typename... Args>
+    auto& Emplace(Args&&... args) {
+        // static std::shared_ptr<T> error_instance{};
+        if constexpr (std::is_same_v<T, Index>) {
+            return indexes_.emplace_back(MAKE_SHARED);
+        }
+        if constexpr (std::is_same_v<T, Trigger>) {
+            return triggers_.emplace_back(MAKE_SHARED);
+        }
+        // unreachable
+        // return error_instance;
     }
 
     ND std::string_view Name() const;
-    ND std::vector<Column> Columns() const;
-    ND std::vector<Index> Indexes() const;
-    ND std::vector<Trigger> Triggers() const;
+    ND std::vector<field_t> Col() const;
+    ND std::vector<index_t> Idx() const;
+    ND std::vector<trigger_t> Tgr() const;
 
 private:
-    std::string          table_name_{};
-    std::vector<Column>  columns_{};
-    std::vector<Index>   indexes_{};
-    std::vector<Trigger> triggers_{};
+    std::string            table_name_{};
+    std::vector<field_t>   columns_{};
+    std::vector<index_t>   indexes_{};
+    std::vector<trigger_t> triggers_{};
 };
 
 using View    = Table;

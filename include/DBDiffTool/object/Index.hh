@@ -6,6 +6,7 @@
 #ifndef DBDIFFTOOL_INDEX_HH
 #define DBDIFFTOOL_INDEX_HH
 
+#include <memory>
 #include <string>
 
 #include <DBDiffTool/common/Macros.hh>
@@ -16,5 +17,7 @@ struct Index {
     std::string index_md5_{};
     ND std::string_view Name() const;
 };
+
+using index_t = std::shared_ptr<Index>;
 
 #endif // DBDIFFTOOL_INDEX_HH

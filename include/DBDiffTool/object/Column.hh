@@ -6,6 +6,7 @@
 #ifndef DBDIFFTOOL_COLUMN_HH
 #define DBDIFFTOOL_COLUMN_HH
 
+#include <memory>
 #include <string>
 
 #include <DBDiffTool/common/Macros.hh>
@@ -17,6 +18,7 @@ struct Column {
     ND std::string_view Name() const;
 };
 
-using Field = Column;
+using Field   = Column;
+using field_t = std::shared_ptr<Field>;
 
 #endif // DBDIFFTOOL_COLUMN_HH
