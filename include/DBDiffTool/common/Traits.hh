@@ -39,9 +39,9 @@ public:
 };
 
 template <typename T>
-concept has_name_method = requires(T t) {
+concept has_key_method = requires(T t) {
+    { t.Key() } -> is_string_like;
     { t.Name() } -> is_string_like;
-    // 其他比较方法
 };
 
 template <typename T>
@@ -51,5 +51,5 @@ concept shared_ptr_to_aggregate = requires {
     requires not is_container<typename T::element_type>::value;
     requires std::is_class_v<typename T::element_type>;
     requires std::is_same_v<std::shared_ptr<typename T::element_type>, T>;
-    requires has_name_method<typename T::element_type>;
+    requires has_key_method<typename T::element_type>;
 };

@@ -31,16 +31,17 @@ struct Table {
         // return error_instance;
     }
 
+    ND std::string_view Key() const;
     ND std::string_view Name() const;
+
     ND std::vector<sn::col_t> Col() const;
     ND std::vector<sn::idx_t> Idx() const;
     ND std::vector<sn::tgr_t> Tgr() const;
 
     static std::string prefix() {
-        static std::string indent{ "\t" };
+        static std::string indent{ "    " };
         return indent;
     }
-    static int w() { return 8; }
 
 private:
     std::string            table_name_{};

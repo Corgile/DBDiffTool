@@ -6,15 +6,16 @@
 
 #include <string>
 
+#include <DBDiffTool/common/AnsiColor.hh>
 #include <DBDiffTool/common/Traits.hh>
 #include <DBDiffTool/object/Schema.hh>
 
-struct string_less {
-    bool operator()(std::string_view a, std::string_view b) const {
-        /// 必须与 SQL 语句 ORDER BY LENGTH(xxx), xxx 效果一致
-        return a.size() < b.size() or (a.size() == b.size() and a < b);
-    }
-};
+#define ABSENT_PRESENT(ss, it, l, r)                                           \
+    do {                                                                       \
+        ss << std::setw(16) << l << ": " << Absent<T>() << " | ";              \
+        ss << r << ": " << Present<T, Lang::EN>((*it)->Name()) << '\n';        \
+        ++it;                                                                  \
+    } while (false)
 
 namespace compare {
 namespace detail {
@@ -29,7 +30,7 @@ auto nameof() -> std::string {
     if constexpr (locale == Lang::CN) {
         name = glb::name2cn.at(name);
     }
-    return "\x1B[34;1m" + name + "\x1B[0m";
+    return name;
 }
 
 template <typename T, Lang locale>
@@ -41,9 +42,9 @@ auto no_such() -> std::string {
         ret.append("】");
         return ret;
     } else if constexpr (locale == Lang::EN) {
-        std::string ret{ "No such \x1b[1m" };
+        std::string ret{ "No such " BLKB };
         ret.append(nameof<T, Lang::EN>());
-        ret.append("\x1b[0m");
+        ret.append(RST);
         return ret;
     }
     assert(false); // unreachable
@@ -51,7 +52,7 @@ auto no_such() -> std::string {
 }
 } // namespace detail
 
-template <typename T, Lang locale>
+template <typename T, Lang locale = Lang::EN>
     requires shared_ptr_to_aggregate<T>
 auto Absent() -> std::string {
     return detail::no_such<T, locale>();
@@ -68,21 +69,42 @@ using iterator = typename std::vector<T>::const_iterator;
 
 template <typename T>
     requires shared_ptr_to_aggregate<T>
+struct Less {
+    bool operator()(iterator<T> const& a, iterator<T> const& b) const {
+        /// 必须与 SQL 语句 ORDER BY LENGTH(xxx), xxx 效果一致
+        auto const val_a{ (*a)->Key() }, val_b{ (*b)->Key() };
+        return val_a.size() < val_b.size() or
+            (val_a.size() == val_b.size() and val_a < val_b);
+    }
+};
+
+template <typename T>
+    requires shared_ptr_to_aggregate<T>
+struct Equal {
+    bool operator()(iterator<T> const& a, iterator<T> const& b) const {
+        auto const key_a{ (*a)->Key() }, key_b{ (*b)->Key() };
+        return key_a == key_b;
+    }
+};
+
+template <typename T>
+    requires shared_ptr_to_aggregate<T>
 void CompareCommon(iterator<T> const& it_a, iterator<T> const& it_b,
-                   std::stringstream& diff, std::string prefix) {
+                   std::stringstream& diff, std::string_view a,
+                   std::string_view b, std::string prefix) {
     std::stringstream ss;
-    ss << "Comparing same named " << detail::nameof<T>() << ": \x1B[1m";
+    ss << WHTB "Comparing same named " CYNB << detail::nameof<T>() << RST ":";
     std::string new_prefix{ prefix.append(1, '.').append((*it_a)->Name()) };
-    ss << new_prefix << "\x1B[0m\n";
+    ss << BOLD << new_prefix << RST << "\n";
     auto const size_before{ ss.str().size() };
     if constexpr (std::is_same_v<T, schema_t>) {
-        Compare<sn::tbl_t>((*it_a)->Tbl(), (*it_b)->Tbl(), ss, prefix);
-        Compare<sn::seq_t>((*it_a)->Seq(), (*it_b)->Seq(), ss, prefix);
-        Compare<sn::pro_t>((*it_a)->Pro(), (*it_b)->Pro(), ss, prefix);
+        Compare<sn::tbl_t>((*it_a)->Tbl(), (*it_b)->Tbl(), ss, a, b, prefix);
+        Compare<sn::seq_t>((*it_a)->Seq(), (*it_b)->Seq(), ss, a, b, prefix);
+        Compare<sn::pro_t>((*it_a)->Pro(), (*it_b)->Pro(), ss, a, b, prefix);
     } else if constexpr (std::is_same_v<T, table_t>) {
-        Compare<sn::col_t>((*it_a)->Col(), (*it_b)->Col(), ss, prefix);
-        Compare<sn::idx_t>((*it_a)->Idx(), (*it_b)->Idx(), ss, prefix);
-        Compare<sn::tgr_t>((*it_a)->Tgr(), (*it_b)->Tgr(), ss, prefix);
+        Compare<sn::col_t>((*it_a)->Col(), (*it_b)->Col(), ss, a, b, prefix);
+        Compare<sn::idx_t>((*it_a)->Idx(), (*it_b)->Idx(), ss, a, b, prefix);
+        Compare<sn::tgr_t>((*it_a)->Tgr(), (*it_b)->Tgr(), ss, a, b, prefix);
     }
     if (ss.str().size() not_eq size_before) {
         diff << ss.str();
@@ -92,41 +114,40 @@ void CompareCommon(iterator<T> const& it_a, iterator<T> const& it_b,
 template <typename T>
     requires shared_ptr_to_aggregate<T>
 void Compare(std::vector<T> const& listA, std::vector<T> const& listB,
-             std::stringstream& diff, std::string prefix = "") {
+             std::stringstream& diff, std::string_view dsa,
+             std::string_view dsb, std::string prefix = "") {
     using OBJ = typename T::template element_type;
     std::stringstream ss;
-    ss << T::element_type::prefix() << prefix << "." << detail::nameof<T>()
-       << ":\n";
+    ss << OBJ::prefix() << prefix << "." << detail::nameof<T>() << ":\n";
     auto const size_before{ ss.str().size() };
     auto       it_a{ listA.begin() }, it_b{ listB.begin() };
     while (it_a not_eq listA.end() and it_b not_eq listB.end()) {
-        std::string_view const elem_name_a{ (*it_a)->Name() };
-        std::string_view const elem_name_b{ (*it_b)->Name() };
-        if (elem_name_a == elem_name_b) {
+        if (Equal<T>{}(it_a, it_b)) {
             if constexpr (std::is_same_v<T, sn::scm_t> or
                           std::is_same_v<T, sn::tbl_t>) {
-                CompareCommon<T>(it_a, it_b, ss, prefix); // DFS
+                CompareCommon<T>(it_a, it_b, ss, dsa, dsb, prefix); // DFS
             }
             ++it_a;
             ++it_b;
-        } else if (string_less{}(elem_name_a, elem_name_b)) {
-            ss << std::setw(10 + OBJ::w()) << Present<T, Lang::EN>(elem_name_a);
-            ss << " | " << Absent<T, Lang::EN>() << '\n';
+        } else if (Less<T>{}(it_a, it_b)) {
+            ABSENT_PRESENT(ss, it_a, dsb, dsa);
+            ss << std::setw(16) << dsb << ": " << Absent<T>() << " | ";
+            ss << dsa << ": " << Present<T, Lang::EN>((*it_a)->Name()) << '\n';
             ++it_a;
-        } else if (string_less{}(elem_name_b, elem_name_a)) {
-            ss << std::setw(84) << Absent<T, Lang::EN>() << " | "
-               << Present<T, Lang::EN>(elem_name_b) << '\n';
+        } else if (Less<T>{}(it_b, it_a)) {
+            ss << std::setw(16) << dsa << ": " << Absent<T>() << " | ";
+            ss << dsb << ": " << Present<T, Lang::EN>((*it_b)->Name()) << '\n';
             ++it_b;
         }
     }
     while (it_a not_eq listA.end()) {
-        ss << std::setw(10 + OBJ::w()) << Present<T, Lang::EN>((*it_a)->Name());
-        ss << " | " << Absent<T, Lang::EN>() << '\n';
+        ss << std::setw(16) << dsb << ": " << Absent<T>() << " | ";
+        ss << dsa << ": " << Present<T, Lang::EN>((*it_a)->Name()) << '\n';
         ++it_a;
     }
     while (it_b not_eq listB.end()) {
-        ss << std::setw(84) << Absent<T, Lang::EN>() << " | "
-           << Present<T, Lang::EN>((*it_b)->Name()) << '\n';
+        ss << std::setw(16) << dsa << ": " << Absent<T>() << " | ";
+        ss << dsb << ": " << Present<T, Lang::EN>((*it_b)->Name()) << '\n';
         ++it_b;
     }
     if (ss.str().size() not_eq size_before) {

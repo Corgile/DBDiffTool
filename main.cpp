@@ -18,7 +18,7 @@ int main(int argc, char* const* argv) {
     std::stringstream diff;
     std::cout << std::setw(50) << glb::enum2str.at(dsA.Type());
     std::cout << " | " << glb::enum2str.at(dsB.Type()) << "\n";
-    compare::Compare(listA, listB, diff);
+    compare::Compare(listA, listB, diff, dsA.Name(), dsB.Name());
     std::cout << diff.str() << std::endl;
     return 0;
 }

@@ -36,7 +36,9 @@ public:
         // return error_instance;
     }
 
+    ND std::string_view Key() const;
     ND std::string_view Name() const;
+
     ND std::vector<sn::tbl_t> Tbl() const;
     ND std::vector<sn::seq_t> Seq() const;
     ND std::vector<sn::pro_t> Pro() const;
@@ -45,7 +47,6 @@ public:
         static std::string indent{};
         return indent;
     }
-    static int w() { return 0; }
 
 private:
     std::string            schema_name_{};

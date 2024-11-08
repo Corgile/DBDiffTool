@@ -38,7 +38,9 @@ public:
         }
         for (auto& thread : threads) thread.join();
         std::ranges::sort(schemas, [](schema_cref lhs, schema_cref rhs) {
-            return string_less{}(lhs->Name(), rhs->Name());
+            auto const &val_a{ lhs->Name() }, val_b{ rhs->Name() };
+            return val_a.size() < val_b.size() or
+                (val_a.size() == val_b.size() and val_a < val_b);
         });
         return schemas;
     }
@@ -71,11 +73,11 @@ private: // NOLINT
         ENSURE_QUERY(conn, orm::SQLite::table_sql(t));
         util::TraverseResultSet(conn, [&]() -> void {
             std::string table_name{ conn->GetString(0) };
-            auto& last = schema->Emplace<Table>(   //
-                table_name,         // table_name
-                conn->GetString(1), // table_fields
-                conn->GetString(2), // field_types
-                conn->GetString(3)  // field_nulls
+            auto&       last = schema->Emplace<Table>( //
+                table_name,                      // table_name
+                conn->GetString(1),              // table_fields
+                conn->GetString(2),              // field_types
+                conn->GetString(3)               // field_nulls
             );
             table_map_.emplace(table_name, last);
         });
@@ -85,11 +87,11 @@ private: // NOLINT
         ENSURE_QUERY(conn, orm::SQLite::sequence_sql());
         util::TraverseResultSet(conn, [&]() -> void {
             schema->Emplace<Sequence>( //
-                conn->GetString(0),  // seq_name
-                conn->GetInt64(1),   // seq_min
-                conn->GetInt64(2),   // seq_inc
-                conn->GetInt64(3),   // seq_max
-                conn->GetBool(4)     // seq_cycle
+                conn->GetString(0),    // seq_name
+                conn->GetInt64(1),     // seq_min
+                conn->GetInt64(2),     // seq_inc
+                conn->GetInt64(3),     // seq_max
+                conn->GetBool(4)       // seq_cycle
             );
         });
     }
@@ -104,7 +106,7 @@ private: // NOLINT
         util::TraverseResultSet(conn, [&]() -> void {
             auto const     table_name{ conn->GetString(0) };
             table_t const& table{ table_map_.at(table_name) };
-            table->Emplace<Index>(    //
+            table->Emplace<Index>(  //
                 conn->GetString(1), // index_name
                 conn->GetString(2), // indexed_fields
                 conn->GetString(3)  // index_detail
@@ -117,9 +119,9 @@ private: // NOLINT
         util::TraverseResultSet(conn, [&]() -> void {
             auto const     table_name{ conn->GetString(0) };
             table_t const& table{ table_map_.at(table_name) };
-            table->Emplace<Trigger>(  //
-                conn->GetString(1), // trigger_name
-                conn->GetString(2)  // trigger_detail
+            table->Emplace<Trigger>( //
+                conn->GetString(1),  // trigger_name
+                conn->GetString(2)   // trigger_detail
             );
         });
     }

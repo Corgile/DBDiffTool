@@ -6,6 +6,7 @@
 #ifndef DBDIFFTOOL_PROCEDURE_HH
 #define DBDIFFTOOL_PROCEDURE_HH
 #include <memory>
+#include <ostream>
 #include <string>
 
 #include <DBDiffTool/common/Macros.hh>
@@ -13,12 +14,18 @@
 struct Procedure {
     std::string procedure_name_{};
     std::string procedure_md5_{};
+
+    ND std::string_view Key() const;
     ND std::string_view Name() const;
-    static std::string  prefix() {
-        static std::string indent{ "\t" };
+
+    friend std::ostream& operator<<(std::ostream& os, Procedure const& obj) {
+        return os << obj.procedure_name_ << obj.procedure_md5_;
+    }
+
+    static std::string prefix() {
+        static std::string indent{ "    " };
         return indent;
     }
-    static int w() { return 8; }
 };
 using procedure_t = std::shared_ptr<Procedure>;
 namespace sn {

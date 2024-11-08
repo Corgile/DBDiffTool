@@ -36,10 +36,64 @@ std::vector<sn::col_t> Table::Col() const { return columns_; }
 std::vector<sn::idx_t> Table::Idx() const { return indexes_; }
 std::vector<sn::tgr_t> Table::Tgr() const { return triggers_; }
 
-std::string_view Schema::Name() const { return schema_name_; }
+std::string_view Schema::Key() const { return schema_name_; }
+
+std::string_view Table::Key() const { return table_name_; }
+
+std::string_view Procedure::Key() const {
+    if (glb::heterogeneous) {
+        return procedure_name_;
+    }
+    std::stringstream ss;
+    ss << *this;
+    static std::string key{ ss.str() };
+    return key;
+}
+
+std::string_view Sequence::Key() const {
+    if (glb::heterogeneous) {
+        return seq_name_;
+    }
+    std::stringstream ss;
+    ss << *this;
+    static std::string key{ ss.str() };
+    return key;
+}
+
+std::string_view Trigger::Key() const {
+    if (glb::heterogeneous) {
+        return trigger_name_;
+    }
+    std::stringstream ss;
+    ss << *this;
+    static std::string key{ ss.str() };
+    return key;
+}
+
+std::string_view Column::Key() const {
+    if (glb::heterogeneous) {
+        return field_name_;
+    }
+    std::stringstream ss;
+    ss << *this;
+    static std::string key{ ss.str() };
+    return key;
+}
+
+std::string_view Index::Key() const {
+    if (glb::heterogeneous) {
+        return index_name_;
+    }
+    std::stringstream ss;
+    ss << *this;
+    static std::string key{ ss.str() };
+    return key;
+}
+
 std::string_view Table::Name() const { return table_name_; }
+std::string_view Index::Name() const { return index_name_; }
+std::string_view Schema::Name() const { return schema_name_; }
+std::string_view Column::Name() const { return field_name_; }
+std::string_view Trigger::Name() const { return trigger_name_; }
 std::string_view Sequence::Name() const { return seq_name_; }
 std::string_view Procedure::Name() const { return procedure_name_; }
-std::string_view Trigger::Name() const { return trigger_name_; }
-std::string_view Column::Name() const { return name_; }
-std::string_view Index::Name() const { return index_name_; }

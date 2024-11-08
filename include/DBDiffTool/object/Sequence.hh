@@ -7,6 +7,7 @@
 #define DBDIFFTOOL_SEQUENCE_HH
 
 #include <memory>
+#include <ostream>
 #include <string>
 
 #include <DBDiffTool/common/Macros.hh>
@@ -17,12 +18,19 @@ struct Sequence {
     std::int64_t seq_inc_{};
     std::int64_t seq_max_{};
     bool         seq_cycle_{};
+
+    ND std::string_view Key() const;
     ND std::string_view Name() const;
-    static std::string  prefix() {
-        static std::string indent{ "\t" };
+
+    friend std::ostream& operator<<(std::ostream& os, Sequence const& obj) {
+        return os << obj.seq_name_ << obj.seq_min_ << obj.seq_inc_
+                  << obj.seq_max_ << obj.seq_cycle_;
+    }
+
+    static std::string prefix() {
+        static std::string indent{ "    " };
         return indent;
     }
-    static int w() { return 8; }
 };
 
 using sequence_t = std::shared_ptr<Sequence>;
