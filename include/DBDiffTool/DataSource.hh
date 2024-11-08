@@ -47,13 +47,6 @@ public:
 
     ~DataSource() = default;
 
-private:
-    ND bool IsRemote() const {
-        bool const offline{ Type() == DBType::SQLite or
-                            Type() == DBType::SQLCipher3 };
-        return not offline;
-    }
-
 private: // NOLINT
     DataBase dsImpl_;
     DBTYPE   db_type_;

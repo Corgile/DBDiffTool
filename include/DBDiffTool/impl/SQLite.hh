@@ -38,7 +38,7 @@ public:
         }
         for (auto& thread : threads) thread.join();
         std::ranges::sort(schemas, [](schema_cref lhs, schema_cref rhs) {
-            return string_comp{}(lhs->Name(), rhs->Name());
+            return string_less{}(lhs->Name(), rhs->Name());
         });
         return schemas;
     }

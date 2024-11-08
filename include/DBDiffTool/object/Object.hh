@@ -13,6 +13,5 @@
 #include <DBDiffTool/object/Sequence.hh>
 #include <DBDiffTool/object/Table.hh>
 #include <DBDiffTool/object/Trigger.hh>
-#include <DBDiffTool/object/Node.hh>
 
 #endif //DBDIFFTOOL_OBJECT_HH

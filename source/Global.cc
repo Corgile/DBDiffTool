@@ -5,7 +5,7 @@
 #include <DBDiffTool/common/Global.hh>
 
 namespace glb {
-const std::unordered_map<std::string_view, std::string_view> name2cn{
+const std::unordered_map<std::string, std::string> name2cn{
     { "Index", "索引" },         { "Table", "表格" },
     { "Column", "字段" },        { "Schema", "模式" },
     { "Trigger", "触发器" },     { "Sequence", "序列" },

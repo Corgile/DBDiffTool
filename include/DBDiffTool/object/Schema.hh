@@ -6,18 +6,19 @@
 #ifndef DBDIFFTOOL_SCHEMA_HH
 #define DBDIFFTOOL_SCHEMA_HH
 
-#include <DBDiffTool/compare/Comparator.hh>
 #include <memory>
+#include <string>
 
-#include <DBDiffTool/object/Node.hh>
+#include <DBDiffTool/common/Macros.hh>
+#include <DBDiffTool/object/Procedure.hh>
 #include <DBDiffTool/object/Sequence.hh>
 #include <DBDiffTool/object/Table.hh>
 
-class Schema final : public Node {
+class Schema final {
 public:
     Schema() = default;
 
-    void SetName(std::string_view name) { schema_name_ = name; }
+    void SetName(std::string_view name);
 
     template <typename... Args>
     void EmplaceTable(Args&&... args) {
@@ -35,9 +36,12 @@ public:
         procedure_.emplace_back(std::forward<Args>(args)...);
     }
 
-    table_t Last() { return tables_.back(); }
+    table_t Last();
 
-    ND std::string_view Name() const { return schema_name_; }
+    ND std::string_view Name() const;
+    ND std::vector<table_t> Tables() const;
+    ND std::vector<Sequence> Sequences() const;
+    ND std::vector<Procedure> Procedures() const;
 
 private:
     std::string            schema_name_{};

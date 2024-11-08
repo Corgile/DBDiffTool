@@ -15,8 +15,8 @@ class PostgreSQL {
 public:
     explicit PostgreSQL(DBParam&& param) : param_{ std::move(param) } {
         DBLayer_Init(param_);
-        Module_Register(param_, Name().data());
-        connect_ = DBLayer_ApplyConn(Name().data());
+        Module_Register(param_, "PPPPPPP");
+        connect_ = DBLayer_ApplyConn("PPPPPPP");
     }
 
     static std::string_view Name() { return orm::PostgreSQL::Name(); }

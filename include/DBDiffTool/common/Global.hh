@@ -12,7 +12,7 @@
 
 namespace glb {
 using DBTYPE = db_layer::DBType::Type;
-extern const std::unordered_map<std::string_view, std::string_view> name2cn;
+extern const std::unordered_map<std::string, std::string> name2cn;
 extern const std::unordered_map<std::string_view, DBTYPE> str2enum;
 extern bool heterogeneous;
 }

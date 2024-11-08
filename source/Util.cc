@@ -2,9 +2,12 @@
 // DBDiffTool / Util.cc
 // Created by bryant on 2024 Nov 06.
 //
-#include <DBDiffTool/common/Util.hh>
 #include <filesystem>
 #include <fstream>
+#include <sstream>
+
+#include <DBDiffTool/common/Util.hh>
+
 namespace util {
 
 void detail::Load(ini_section const& sec, DBParam& param) {
