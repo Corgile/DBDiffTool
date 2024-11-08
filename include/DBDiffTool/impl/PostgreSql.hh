@@ -7,15 +7,16 @@
 #define POSTGRESQL_HH
 
 #include <DBDiffTool/common/Macros.hh>
-#include <DBDiffTool/orm/Type.hh>
+#include <DBDiffTool/orm/orm.hh>
 
 namespace db {
 namespace impl {
 class PostgreSQL {
 public:
     explicit PostgreSQL(DBParam&& param) : param_{ std::move(param) } {
-        DBLayer_Init(param_, instanceId_);
-        connect_ = DBLayer_ApplyConn(instanceId_);
+        DBLayer_Init(param_);
+        Module_Register(param_, Name().data());
+        connect_ = DBLayer_ApplyConn(Name().data());
     }
 
     static std::string_view Name() { return orm::PostgreSQL::Name(); }
@@ -23,9 +24,9 @@ public:
     ND std::vector<schema_t> SchemaList(orm::type const t) const {
         std::vector<schema_t> schemas;
         // 第一级元数据
-        FillTableList(schemas, t);  // 与schema关联
-        FillSequenceList(schemas);  // 与schema关联
-        FillProcedureList(schemas); // 与schema关联
+        FillTableList(schemas, t); // 与schema关联
+        FillSequenceList();        // 与schema关联
+        FillProcedureList();       // 与schema关联
         // 第二级元数据
         FillTableIndex();   // 与table关联
         FillTableTrigger(); // 与table关联
@@ -36,9 +37,9 @@ public:
 
 private:
     void FillTableList(std::vector<schema_t>& schemas,
-                       orm::type const        t) const {
-        ENSURE_QUERY(connect_, orm::PostgreSQL::schema_sql(t));
-        auto        schema{ std::make_shared<Schema>() };
+                       orm::type const        orm_type) const {
+        ENSURE_QUERY(connect_, orm::PostgreSQL::schema_sql(orm_type));
+        schema_t    schema{ std::make_unique<Schema>() };
         std::string last_schema{ connect_->GetString(0) };
         util::TraverseResultSet(connect_, [&]() -> void {
             auto const curr_schema{ connect_->GetString(0) };
@@ -60,7 +61,7 @@ private:
         });
     }
 
-    void FillSequenceList(std::vector<schema_t> const& schemas) const {
+    void FillSequenceList() const {
         ENSURE_QUERY(connect_, orm::PostgreSQL::sequence_sql());
         util::TraverseResultSet(connect_, [&]() -> void {
             auto const  curr_schema{ connect_->GetString(0) };
@@ -75,7 +76,7 @@ private:
         });
     }
 
-    void FillProcedureList(std::vector<schema_t> const& schemas) const {
+    void FillProcedureList() const {
         ENSURE_QUERY(connect_, orm::PostgreSQL::procedure_sql());
         util::TraverseResultSet(connect_, [&]() -> void {
             auto const  curr_schema{ connect_->GetString(0) };
@@ -113,10 +114,10 @@ private:
     }
 
 private: // NOLINT
-    int       instanceId_{};
-    bool      initialized_{};
-    DBParam   param_{};
-    CConnect* connect_{};
+    bool        initialized_{};
+    std::string instance_name_{};
+    DBParam     param_{};
+    CConnect*   connect_{};
 
     std::map<std::string, table_t> mutable table_map_{};
     std::map<std::string, schema_t> mutable schema_map_{};

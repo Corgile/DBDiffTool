@@ -15,5 +15,6 @@
 
 #include <DBDiffTool/orm/PostgreSql.hh>
 #include <DBDiffTool/orm/SqLite.hh>
+#include <DBDiffTool/orm/Type.hh>
 
 #endif //DBDIFFTOOL_ORM_HH

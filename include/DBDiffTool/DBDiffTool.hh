@@ -6,10 +6,11 @@
 #ifndef DBDIFFTOOL_DBDIFFTOOL_HH
 #define DBDIFFTOOL_DBDIFFTOOL_HH
 
-#include <DBDiffTool/common/Util.hh>
-#include <DBDiffTool/object/Object.hh>
 #include <DBDiffTool/DataSource.hh>
-#include <DBDiffTool/orm/orm.hh>
+#include <DBDiffTool/common/Util.hh>
+#include <DBDiffTool/compare/Comparator.hh>
 #include <DBDiffTool/impl/impl.hh>
+#include <DBDiffTool/object/Object.hh>
+#include <DBDiffTool/orm/orm.hh>
 
-#endif //DBDIFFTOOL_DBDIFFTOOL_HH
+#endif // DBDIFFTOOL_DBDIFFTOOL_HH

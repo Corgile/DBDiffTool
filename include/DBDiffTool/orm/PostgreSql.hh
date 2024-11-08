@@ -126,7 +126,7 @@ FROM pg_trigger trig
 JOIN pg_proc prc ON prc.oid = trig.tgfoid
 JOIN pg_class tbl ON tbl.oid = trig.tgrelid
 JOIN pg_namespace ns ON ns.oid = tbl.relnamespace
-WHERE ns.nspname NOT IN ('pg_toast', 'pg_catalog', 'information_schema')
+WHERE ns.nspname NOT like 'pg_%' and ns.nspname <> 'information_schema'
     AND trig.tgname NOT LIKE 'RI_ConstraintTrigger_%'
 ORDER BY LENGTH(tbl.relname),table_name,LENGTH(trig.tgname),trigger_name;)" };
         return sql;

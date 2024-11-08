@@ -6,10 +6,13 @@
 #ifndef DBDIFFTOOL_DATASOURCE_HH
 #define DBDIFFTOOL_DATASOURCE_HH
 
+#include <vector>
+
+#include <DBLayer/DBLayer.h>
+
 #include <DBDiffTool/common/Macros.hh>
 #include <DBDiffTool/object/Object.hh>
-#include <DBLayer/DBLayer.h>
-#include <vector>
+#include <DBDiffTool/orm/Type.hh>
 
 using namespace db_layer;
 

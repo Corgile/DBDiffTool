@@ -37,6 +37,34 @@ FROM sqlite_sequence ORDER BY LENGTH(name),name;)" };
         return sql;
     }
 
+    /// 第一级元数据 - 表/列
+    static std::string const& table_sql(type const t) {
+        static std::string table{ R"(
+SELECT
+    m.name AS table_name,
+    GROUP_CONCAT(i.name, ',' ORDER BY i.name) AS table_fields,
+    GROUP_CONCAT(i.type, ',' ORDER BY i.name) AS field_types,
+    GROUP_CONCAT(CASE WHEN i."notnull" = 0 THEN 'YES'
+    ELSE 'NO' END, ',' ORDER BY i.name) AS field_nulls
+FROM sqlite_master AS m
+JOIN pragma_table_info(m.name) AS i
+WHERE m.type = 'table' AND m.name NOT LIKE 'sqlite_%'
+GROUP BY m.name ORDER BY LENGTH(m.name),m.name;)" };
+        static std::string view{ R"(
+SELECT
+    m.name AS table_name,
+    GROUP_CONCAT(i.name, ',' ORDER BY i.name) AS table_fields,
+    GROUP_CONCAT(i.type, ',' ORDER BY i.name) AS field_types,
+    GROUP_CONCAT(CASE WHEN i."notnull" = 0 THEN 'YES'
+    ELSE 'NO' END, ',' ORDER BY i.name) AS field_nulls
+FROM sqlite_master AS m
+JOIN pragma_table_info(m.name) AS i
+WHERE m.type = 'view' AND m.name NOT LIKE 'sqlite_%'
+GROUP BY m.name ORDER BY LENGTH(m.name),m.name;)" };
+        if (t == type::view) return view;
+        return table;
+    }
+
     /// 第二级元数据 - 索引
     static std::string const& index_sql() {
         static std::string sql{
