@@ -1,4 +1,4 @@
-//
+﻿//
 // DBDiffTool / Util.hh
 // Created by bryant on 2024 Nov 06.
 //

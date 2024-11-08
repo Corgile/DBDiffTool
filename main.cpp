@@ -1,4 +1,4 @@
-#include <DBDiffTool/DBDiffTool.hh>
+﻿#include <DBDiffTool/DBDiffTool.hh>
 #include <DBDiffTool/common/Util.hh>
 #include <Windows.h>
 #include <iostream>

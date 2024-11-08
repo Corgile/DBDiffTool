@@ -1,4 +1,4 @@
-/// @file Comparator.hh
+ï»¿/// @file Comparator.hh
 /// @author xianghongli\@hikvision.com.cn
 /// @date 2024-11-08.
 /// HangZhou HikVision Digital Technology Co., Ltd. All Right Reserved.
@@ -23,7 +23,7 @@ namespace detail {
 template <typename T, Lang locale = Lang::CN>
     requires shared_ptr_to_aggregate<T>
 auto nameof() -> std::string {
-    /// nameµÄ¸ñÊ½Ó¦¸ÃÀàËÆÓÚ`class std::shared_ptr<struct Table>`
+    /// nameçš„æ ¼å¼åº”è¯¥ç±»ä¼¼äº`class std::shared_ptr<struct Table>`
     std::string name{ typeid(T).name() };
     auto const  type_beg{ name.find_last_of(' ') + 1 };
     auto const  type_end{ name.find_last_of('>') };
@@ -40,7 +40,7 @@ auto no_such() -> std::string {
     std::string       ret{};
     std::string const name{ nameof<T, locale>() };
     if constexpr (locale == Lang::CN) {
-        ret.append("Ã»ÓĞ´Ë[" YLWB);
+        ret.append("æ²¡æœ‰æ­¤[" YLWB);
     } else if constexpr (locale == Lang::EN) {
         ret.append("No such [" YLWB);
     }
@@ -65,7 +65,7 @@ template <typename T>
     requires shared_ptr_to_aggregate<T>
 struct Less {
     bool operator()(iterator<T> const& a, iterator<T> const& b) const {
-        /// ±ØĞëÓë SQL Óï¾ä ORDER BY LENGTH(xxx), xxx Ğ§¹ûÒ»ÖÂ
+        /// å¿…é¡»ä¸ SQL è¯­å¥ ORDER BY LENGTH(xxx), xxx æ•ˆæœä¸€è‡´
         auto const val_a{ (*a)->Key() }, val_b{ (*b)->Key() };
         return val_a.size() < val_b.size() or
             (val_a.size() == val_b.size() and val_a < val_b);

@@ -1,4 +1,4 @@
-//
+ï»¿//
 // DBDiffTool / PostgreSql.hh
 // Created by bryant on 2024 Nov 06.
 //
@@ -16,7 +16,7 @@ struct PostgreSQL {
         static std::string name{ "PostgreSQL" };
         return name;
     }
-    /// µÚÒ»¼¶ÔªÊı¾İ - schema_table / schema_view
+    /// ç¬¬ä¸€çº§å…ƒæ•°æ® - schema_table / schema_view
     static std::string const& schema_sql(type const t) {
         static const std::string table{
             R"(
@@ -59,7 +59,7 @@ WITH a AS (
         return table; // unreachable.
     }
 
-    /// µÚÒ»¼¶ÔªÊı¾İ - schema_sequence
+    /// ç¬¬ä¸€çº§å…ƒæ•°æ® - schema_sequence
     static std::string const& sequence_sql() {
         static std::string sql{ R"(
 SELECT
@@ -78,7 +78,7 @@ ORDER BY LENGTH(sch.nspname),sch.nspname,LENGTH(cls.relname),seq_name;)" };
         return sql;
     }
 
-    /// µÚÒ»¼¶ÔªÊı¾İ - schema_procedure
+    /// ç¬¬ä¸€çº§å…ƒæ•°æ® - schema_procedure
     static std::string const& procedure_sql() {
         static std::string sql{ R"(
 SELECT
@@ -92,7 +92,7 @@ ORDER BY LENGTH(n.nspname),schema_name,LENGTH(p.proname),procd_name;)" };
         return sql;
     }
 
-    /// µÚ¶ş¼¶ÔªÊı¾İ - Ë÷Òı
+    /// ç¬¬äºŒçº§å…ƒæ•°æ® - ç´¢å¼•
     static std::string const& index_sql() {
         static std::string sql{
             R"(
@@ -115,7 +115,7 @@ FROM index_info ORDER BY LENGTH(table_name), table_name, LENGTH(index_name),inde
         return sql;
     }
 
-    /// µÚ¶ş¼¶ÔªÊı¾İ - ´¥·¢Æ÷
+    /// ç¬¬äºŒçº§å…ƒæ•°æ® - è§¦å‘å™¨
     static std::string const& trigger_sql() {
         static std::string sql{ R"(
 SELECT

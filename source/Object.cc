@@ -1,4 +1,4 @@
-/// @file Object.cc
+ï»¿/// @file Object.cc
 /// @author xianghongli\@hikvision.com.cn
 /// @date 2024-11-08.
 /// HangZhou HikVision Digital Technology Co., Ltd. All Right Reserved.
@@ -20,7 +20,7 @@ Table::Table(std::string_view table_name, std::string_view table_fields,
     util::SplitString(field_nulls, null_vec);
     if (name_vec.size() not_eq type_vec.size() and
         name_vec.size() not_eq null_vec.size()) [[unlikely]] {
-        throw std::logic_error{ "½âÎö×Ö¶Î´íÎó,Ó¦¸ÃÊÇSQLĞ´´íÁË" };
+        throw std::logic_error{ "è§£æå­—æ®µé”™è¯¯,åº”è¯¥æ˜¯SQLå†™é”™äº†" };
     }
     for (std::size_t i = 0; i < name_vec.size(); ++i) {
         columns_.emplace_back(

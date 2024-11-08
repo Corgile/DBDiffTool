@@ -1,9 +1,10 @@
-//
+﻿//
 // DBDiffTool / Util.cc
 // Created by bryant on 2024 Nov 06.
 //
 #include <filesystem>
 #include <fstream>
+#include <functional>
 #include <sstream>
 
 #include <DBDiffTool/common/Util.hh>

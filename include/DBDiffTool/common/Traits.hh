@@ -1,4 +1,4 @@
-/// @file Traits.hh
+﻿/// @file Traits.hh
 /// @author xianghongli\@hikvision.com.cn
 /// @date 2024-11-08.
 /// HangZhou HikVision Digital Technology Co., Ltd. All Right Reserved.

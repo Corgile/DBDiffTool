@@ -1,4 +1,4 @@
-//
+﻿//
 // DBDiffTool / Procedure.hh
 // Created by bryant on 2024 Nov 06.
 //
@@ -6,7 +6,6 @@
 #ifndef DBDIFFTOOL_PROCEDURE_HH
 #define DBDIFFTOOL_PROCEDURE_HH
 #include <memory>
-#include <ostream>
 #include <string>
 
 #include <DBDiffTool/common/Macros.hh>

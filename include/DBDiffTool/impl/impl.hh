@@ -1,4 +1,4 @@
-//
+ï»¿//
 // DBDiffTool / impl.hh
 // Created by bryant on 2024 Nov 06.
 //
@@ -7,8 +7,8 @@
 #define IMPL_HH
 
 /*
- * ±¾ÎÄ¼şÌá¹©¶àÖÖ²éÑ¯·şÎñµÄ¾ßÌåÊµÏÖ, Ä¿Ç°½ö°üº¬PGºÍSQLite
- * Ïàµ±ÓÚJavaµÄ DAO Êı¾İ¿â·ÃÎÊ²ã
+ * æœ¬æ–‡ä»¶æä¾›å¤šç§æŸ¥è¯¢æœåŠ¡çš„å…·ä½“å®ç°, ç›®å‰ä»…åŒ…å«PGå’ŒSQLite
+ * ç›¸å½“äºJavaçš„ DAO æ•°æ®åº“è®¿é—®å±‚
  */
 #include <DBDiffTool/impl/PostgreSql.hh>
 #include <DBDiffTool/impl/SQLite.hh>

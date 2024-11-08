@@ -1,4 +1,4 @@
-STRING(ASCII 27 ESC)
+﻿STRING(ASCII 27 ESC)
 SET(RST "${ESC}[0m")
 
 SET(BLK "${RST}${ESC}[30m")     # 黑色

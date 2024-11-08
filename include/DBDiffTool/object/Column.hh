@@ -1,4 +1,4 @@
-//
+﻿//
 // DBDiffTool / Column.hh
 // Created by bryant on 2024 Nov 06.
 //
@@ -7,7 +7,6 @@
 #define DBDIFFTOOL_COLUMN_HH
 
 #include <memory>
-#include <ostream>
 #include <string>
 
 #include <DBDiffTool/common/Macros.hh>

@@ -1,4 +1,4 @@
-INCLUDE(${PROJECT_SOURCE_DIR}/cmake/ansi.cmake)
+﻿INCLUDE(${PROJECT_SOURCE_DIR}/cmake/ansi.cmake)
 # 1. 定义一个 components 列表变量，其值为 name/version 的列表
 SET(components
     BasicTypes/V1.1.0

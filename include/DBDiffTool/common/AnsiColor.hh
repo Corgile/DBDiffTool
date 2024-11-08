@@ -1,4 +1,4 @@
-/// @file AnsiColor.hh
+ï»¿/// @file AnsiColor.hh
 /// @author xianghongli\@hikvision.com.cn
 /// @date 2024-11-08.
 /// HangZhou HikVision Digital Technology Co., Ltd. All Right Reserved.
@@ -11,30 +11,30 @@
 #define ESC "\x1B"
 
 #define RST  ESC "[0m"
-#define BLK  RST ESC "[30m"   // ºÚÉ«
-#define RED  RST ESC "[31m"   // ºìÉ«
-#define GRN  RST ESC "[32m"   // ÂÌÉ«
-#define YLW  RST ESC "[33m"   // »ÆÉ«
-#define BLU  RST ESC "[34m"   // À¶É«
-#define PRP  RST ESC "[35m"   // ×ÏÉ«
-#define CYN  RST ESC "[36m"   // ÇàÉ«
-#define WHT  RST ESC "[37m"   // °×É«
-#define BLKB RST ESC "[1;30m" // ºÚÉ«£¨¼ÓÁÁ£©
-#define REDB RST ESC "[1;31m" // ºìÉ«£¨¼ÓÁÁ£©
-#define GRNB RST ESC "[1;32m" // ÂÌÉ«£¨¼ÓÁÁ£©
-#define YLWB RST ESC "[1;33m" // »ÆÉ«£¨¼ÓÁÁ£©
-#define BLUB RST ESC "[1;34m" // À¶É«£¨¼ÓÁÁ£©
-#define PRPB RST ESC "[1;35m" // ×ÏÉ«£¨¼ÓÁÁ£©
-#define CYNB RST ESC "[1;36m" // ÇàÉ«£¨¼ÓÁÁ£©
-#define WHTB RST ESC "[1;37m" // °×É«£¨¼ÓÁÁ£©
+#define BLK  RST ESC "[30m"   // é»‘è‰²
+#define RED  RST ESC "[31m"   // çº¢è‰²
+#define GRN  RST ESC "[32m"   // ç»¿è‰²
+#define YLW  RST ESC "[33m"   // é»„è‰²
+#define BLU  RST ESC "[34m"   // è“è‰²
+#define PRP  RST ESC "[35m"   // ç´«è‰²
+#define CYN  RST ESC "[36m"   // é’è‰²
+#define WHT  RST ESC "[37m"   // ç™½è‰²
+#define BLKB RST ESC "[1;30m" // é»‘è‰²ï¼ˆåŠ äº®ï¼‰
+#define REDB RST ESC "[1;31m" // çº¢è‰²ï¼ˆåŠ äº®ï¼‰
+#define GRNB RST ESC "[1;32m" // ç»¿è‰²ï¼ˆåŠ äº®ï¼‰
+#define YLWB RST ESC "[1;33m" // é»„è‰²ï¼ˆåŠ äº®ï¼‰
+#define BLUB RST ESC "[1;34m" // è“è‰²ï¼ˆåŠ äº®ï¼‰
+#define PRPB RST ESC "[1;35m" // ç´«è‰²ï¼ˆåŠ äº®ï¼‰
+#define CYNB RST ESC "[1;36m" // é’è‰²ï¼ˆåŠ äº®ï¼‰
+#define WHTB RST ESC "[1;37m" // ç™½è‰²ï¼ˆåŠ äº®ï¼‰
 
-#define BOLD RST ESC "[1m" // ÉèÖÃ¸ßÁÁ¶È£¨¼Ó´Ö£©
-#define GLOW RST ESC "[2m" // ÉèÖÃµÍÁÁ¶È
-#define UNDL RST ESC "[4m" // ÏÂ»®Ïß
-#define BLNK RST ESC "[5m" // ÉÁË¸
-#define RVSE RST ESC "[7m" // ·´ÏÔ
-#define HIDE RST ESC "[8m" // ÏûÒş
-#define DELT RST ESC "[9m" // »®µô
+#define BOLD RST ESC "[1m" // è®¾ç½®é«˜äº®åº¦ï¼ˆåŠ ç²—ï¼‰
+#define GLOW RST ESC "[2m" // è®¾ç½®ä½äº®åº¦
+#define UNDL RST ESC "[4m" // ä¸‹åˆ’çº¿
+#define BLNK RST ESC "[5m" // é—ªçƒ
+#define RVSE RST ESC "[7m" // åæ˜¾
+#define HIDE RST ESC "[8m" // æ¶ˆéš
+#define DELT RST ESC "[9m" // åˆ’æ‰
 
 #else
 

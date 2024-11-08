@@ -1,4 +1,4 @@
-//
+ï»¿//
 // DBDiffTool / SQLite.hh
 // Created by bryant on 2024 Nov 06.
 //
@@ -57,13 +57,13 @@ private: // NOLINT
         auto const conn{ DBLayer_ApplyConn(instanceId) };
         auto const schema{ std::make_shared<Schema>() };
         schema->SetName(schema_name);
-        // µÚÒ»¼¶ÔªÊı¾İ
+        // ç¬¬ä¸€çº§å…ƒæ•°æ®
         FillTableList(conn, schema, t);
-        FillSequenceList(conn, schema);  // Óëschema¹ØÁª
-        FillProcedureList(conn, schema); // Óëschema¹ØÁª
-        // µÚ¶ş¼¶ÔªÊı¾İ
-        FillTableIndex(conn);   // Óëtable¹ØÁª
-        FillTableTrigger(conn); // Óëtable¹ØÁª
+        FillSequenceList(conn, schema);  // ä¸schemaå…³è”
+        FillProcedureList(conn, schema); // ä¸schemaå…³è”
+        // ç¬¬äºŒçº§å…ƒæ•°æ®
+        FillTableIndex(conn);   // ä¸tableå…³è”
+        FillTableTrigger(conn); // ä¸tableå…³è”
         DBLayer_FreeConn(conn);
         return schema;
     }
@@ -97,7 +97,7 @@ private: // NOLINT
     }
 
     void FillProcedureList(CConnect*, schema_cref) const {
-        // SQLite Ã»ÓĞ´æ´¢¹ı³Ì
+        // SQLite æ²¡æœ‰å­˜å‚¨è¿‡ç¨‹
         static_cast<void>(this);
     }
 

@@ -1,4 +1,4 @@
----- ËùÓĞ±í¸ñ
+ï»¿---- æ‰€æœ‰è¡¨æ ¼
 WITH a AS (
     SELECT
         table_schema, table_name, column_name as cname, is_nullable,
@@ -14,7 +14,7 @@ FROM a WHERE table_schema NOT IN ('pg_catalog', 'information_schema')
 GROUP BY table_schema, table_name
 ORDER BY LENGTH(table_schema),table_schema,LENGTH(table_name),table_name;
 
----- ËùÓĞ±í¸ñ(Íâ¼ÓÒ»ĞĞÉÚ±ø, ÎªÊ²Ã´: Óë db::impl::PostgreSQL::SchemaList ÊµÏÖÓĞ¹Ø)
+---- æ‰€æœ‰è¡¨æ ¼(å¤–åŠ ä¸€è¡Œå“¨å…µ, ä¸ºä»€ä¹ˆ: ä¸ db::impl::PostgreSQL::SchemaList å®ç°æœ‰å…³)
 WITH a AS (
     SELECT
         table_schema, table_name, column_name as cname, is_nullable,
@@ -31,7 +31,7 @@ WITH a AS (
     ORDER BY LENGTH(table_schema), table_schema, LENGTH(table_name), table_name
 ) SELECT * FROM b UNION ALL (SELECT 'drop', 'drop', 'drop', 'drop', 'drop');
 
----- ËùÓĞÊÓÍ¼(Íâ¼ÓÒ»ĞĞÉÚ±ø, ÎªÊ²Ã´: Óë db::impl::PostgreSQL::SchemaList ÊµÏÖÓĞ¹Ø)
+---- æ‰€æœ‰è§†å›¾(å¤–åŠ ä¸€è¡Œå“¨å…µ, ä¸ºä»€ä¹ˆ: ä¸ db::impl::PostgreSQL::SchemaList å®ç°æœ‰å…³)
 WITH a AS (
     SELECT c.table_schema, c.table_name, c.column_name as cname, c.is_nullable,
            concat_ws('_', c.udt_name, c.character_maximum_length, c.numeric_precision,
@@ -49,7 +49,7 @@ WITH a AS (
     ORDER BY LENGTH(table_schema), table_schema, LENGTH(table_name), table_name
 ) SELECT * FROM b UNION ALL (SELECT 'drop', 'drop', 'drop', 'drop', 'drop');
 
----- Ë÷Òı
+---- ç´¢å¼•
 WITH index_info AS (
     SELECT t.relname AS table_name,
            i.relname AS index_name,
@@ -66,7 +66,7 @@ WITH index_info AS (
 ) SELECT table_name, index_name, indexed_fields, index_md5
 FROM index_info ORDER BY LENGTH(table_name), table_name, LENGTH(index_name),index_name;
 
----- ĞòÁĞ
+---- åºåˆ—
 SELECT
     sch.nspname	   AS schema_name,
     cls.relname 	   AS seq_name,
@@ -81,7 +81,7 @@ WHERE cls.relkind = 'S'
   AND sch.nspname NOT IN ('pg_toast', 'pg_catalog', 'information_schema')
 ORDER BY LENGTH(sch.nspname),sch.nspname,LENGTH(cls.relname),seq_name;
 
----- ´æ´¢¹ı³Ì
+---- å­˜å‚¨è¿‡ç¨‹
 SELECT
     n.nspname AS schema_name,
     p.proname AS procd_name,

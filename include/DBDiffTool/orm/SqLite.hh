@@ -1,4 +1,4 @@
-//
+ï»¿//
 // DBDiffTool / SqLite.hh
 // Created by bryant on 2024 Nov 06.
 //
@@ -16,13 +16,13 @@ struct SQLite {
         static std::string name{ "SQLite" };
         return name;
     }
-    /// µÚÒ»¼¶ÔªÊı¾İ - schema, sqliteµÄ»°Ö±½ÓÌø¹ı
+    /// ç¬¬ä¸€çº§å…ƒæ•°æ® - schema, sqliteçš„è¯ç›´æ¥è·³è¿‡
     static std::string const& schema_sql(type const t) {
         static std::string sql{ "SELECT 1;" };
         return sql;
     }
 
-    /// µÚÒ»¼¶ÔªÊı¾İ - schema_sequence
+    /// ç¬¬ä¸€çº§å…ƒæ•°æ® - schema_sequence
     static std::string const& sequence_sql() {
         static std::string sql{ R"(
 SELECT name AS seq_name, 1 AS seq_min, 1 AS seq_incr,
@@ -31,13 +31,13 @@ FROM sqlite_sequence ORDER BY LENGTH(name),name;)" };
         return sql;
     }
 
-    /// µÚÒ»¼¶ÔªÊı¾İ - schema_procedure
+    /// ç¬¬ä¸€çº§å…ƒæ•°æ® - schema_procedure
     static std::string const& procedure_sql() {
         static std::string sql{ R"(SELECT 1;)" };
         return sql;
     }
 
-    /// µÚÒ»¼¶ÔªÊı¾İ - ±í/ÁĞ
+    /// ç¬¬ä¸€çº§å…ƒæ•°æ® - è¡¨/åˆ—
     static std::string const& table_sql(type const t) {
         static std::string table{ R"(
 SELECT
@@ -65,7 +65,7 @@ GROUP BY m.name ORDER BY LENGTH(m.name),m.name;)" };
         return table;
     }
 
-    /// µÚ¶ş¼¶ÔªÊı¾İ - Ë÷Òı
+    /// ç¬¬äºŒçº§å…ƒæ•°æ® - ç´¢å¼•
     static std::string const& index_sql() {
         static std::string sql{
             R"(
@@ -80,7 +80,7 @@ ORDER BY LENGTH(tbl_name), tbl_name, LENGTH(name),name;)"
         return sql;
     }
 
-    /// µÚ¶ş¼¶ÔªÊı¾İ - ´¥·¢Æ÷
+    /// ç¬¬äºŒçº§å…ƒæ•°æ® - è§¦å‘å™¨
     static std::string const& trigger_sql() {
         static std::string sql{ R"(
 SELECT tbl_name AS table_name, name AS trigger_name, sql AS trigger_detail

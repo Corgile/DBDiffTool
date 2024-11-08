@@ -1,10 +1,12 @@
-//
+ï»¿//
 // DBDiffTool / PostgreSql.hh
 // Created by bryant on 2024 Nov 06.
 //
 
 #ifndef POSTGRESQL_HH
 #define POSTGRESQL_HH
+
+#include <DBLayer/DBLayer.h>
 
 #include <DBDiffTool/common/Macros.hh>
 #include <DBDiffTool/orm/orm.hh>
@@ -23,13 +25,13 @@ public:
 
     ND std::vector<schema_t> SchemaList(orm::type const t) const {
         std::vector<schema_t> schemas;
-        // µÚÒ»¼¶ÔªÊı¾İ
-        FillTableList(schemas, t); // Óëschema¹ØÁª
-        FillSequenceList();        // Óëschema¹ØÁª
-        FillProcedureList();       // Óëschema¹ØÁª
-        // µÚ¶ş¼¶ÔªÊı¾İ
-        FillTableIndex();   // Óëtable¹ØÁª
-        FillTableTrigger(); // Óëtable¹ØÁª
+        // ç¬¬ä¸€çº§å…ƒæ•°æ®
+        FillTableList(schemas, t); // ä¸schemaå…³è”
+        FillSequenceList();        // ä¸schemaå…³è”
+        FillProcedureList();       // ä¸schemaå…³è”
+        // ç¬¬äºŒçº§å…ƒæ•°æ®
+        FillTableIndex();   // ä¸tableå…³è”
+        FillTableTrigger(); // ä¸tableå…³è”
         return schemas;
     }
 

@@ -1,4 +1,4 @@
-SELECT name AS seq_name,
+﻿SELECT name AS seq_name,
        1 AS seq_min,
        1 AS seq_incr,
        CAST(0x7FFFFFFFFFFFFFFF AS INTEGER) AS seq_max,
