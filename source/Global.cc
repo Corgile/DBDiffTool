@@ -24,5 +24,16 @@ const std::unordered_map<std::string_view, DBTYPE> str2enum{
     { "SQLCipher3", db_layer::DBType::SQLCipher3 },
 };
 
+const std::unordered_map<DBTYPE, std::string_view> enum2str{
+    { db_layer::DBType::Null, "Null" },
+    { db_layer::DBType::SQLite, "SQLite" },
+    { db_layer::DBType::PostgreSQL, "PostgreSQL" },
+    { db_layer::DBType::SQLServer, "SQLServer" },
+    { db_layer::DBType::MySQL, "MySQL" },
+    { db_layer::DBType::Oracle, "Oracle" },
+    { db_layer::DBType::SQLServerODBC, "SQLServerODBC" },
+    { db_layer::DBType::SQLCipher3, "SQLCipher3" },
+};
+
 bool heterogeneous{false};
 }

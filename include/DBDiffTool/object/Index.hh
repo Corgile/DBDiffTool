@@ -16,8 +16,16 @@ struct Index {
     std::string indexed_fields_{};
     std::string index_md5_{};
     ND std::string_view Name() const;
+    static std::string  prefix() {
+        static std::string indent{ "\t\t" };
+        return indent;
+    }
+    static int w() { return 30; }
 };
 
 using index_t = std::shared_ptr<Index>;
+namespace sn {
+using idx_t = index_t;
+}
 
 #endif // DBDIFFTOOL_INDEX_HH

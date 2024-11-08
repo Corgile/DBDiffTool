@@ -32,19 +32,28 @@ struct Table {
     }
 
     ND std::string_view Name() const;
-    ND std::vector<field_t> Col() const;
-    ND std::vector<index_t> Idx() const;
-    ND std::vector<trigger_t> Tgr() const;
+    ND std::vector<sn::col_t> Col() const;
+    ND std::vector<sn::idx_t> Idx() const;
+    ND std::vector<sn::tgr_t> Tgr() const;
+
+    static std::string prefix() {
+        static std::string indent{ "\t" };
+        return indent;
+    }
+    static int w() { return 8; }
 
 private:
     std::string            table_name_{};
-    std::vector<field_t>   columns_{};
-    std::vector<index_t>   indexes_{};
-    std::vector<trigger_t> triggers_{};
+    std::vector<sn::col_t> columns_{};
+    std::vector<sn::idx_t> indexes_{};
+    std::vector<sn::tgr_t> triggers_{};
 };
 
 using View    = Table;
 using table_t = std::shared_ptr<Table>;
 using view_t  = std::shared_ptr<View>;
+namespace sn {
+using tbl_t = table_t;
+}
 
 #endif // DBDIFFTOOL_TABLE_HH

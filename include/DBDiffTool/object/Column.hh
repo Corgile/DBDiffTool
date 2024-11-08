@@ -16,9 +16,17 @@ struct Column {
     std::string type_{};
     std::string null_{};
     ND std::string_view Name() const;
+    static std::string  prefix() {
+        static std::string indent{ "\t\t" };
+        return indent;
+    }
+    static int w() { return 20; }
 };
 
 using Field   = Column;
 using field_t = std::shared_ptr<Field>;
+namespace sn {
+using col_t = field_t;
+}
 
 #endif // DBDIFFTOOL_COLUMN_HH

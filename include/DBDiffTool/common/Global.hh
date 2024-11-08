@@ -6,14 +6,16 @@
 #ifndef DBDIFFTOOL_GLOBAL_HH
 #define DBDIFFTOOL_GLOBAL_HH
 
+#include <DBLayer/DBLayer.h>
 #include <string>
 #include <unordered_map>
-#include <DBLayer/DBLayer.h>
 
 namespace glb {
 using DBTYPE = db_layer::DBType::Type;
 extern const std::unordered_map<std::string, std::string> name2cn;
 extern const std::unordered_map<std::string_view, DBTYPE> str2enum;
+extern const std::unordered_map<DBTYPE, std::string_view> enum2str;
+
 extern bool heterogeneous;
-}
-#endif //DBDIFFTOOL_GLOBAL_HH
+} // namespace glb
+#endif // DBDIFFTOOL_GLOBAL_HH

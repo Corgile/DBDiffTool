@@ -39,13 +39,13 @@ public:
         return dsImpl_.SchemaList(t);
     }
 
-    ND DBTYPE Type() const { return db_type_; }
+    ND glb::DBTYPE Type() const { return db_type_; }
 
     ~DataSource() = default;
 
 private: // NOLINT
-    DataBase dsImpl_;
-    DBTYPE   db_type_;
+    DataBase    dsImpl_;
+    glb::DBTYPE db_type_;
 };
 
 #endif // DBDIFFTOOL_DATASOURCE_HH

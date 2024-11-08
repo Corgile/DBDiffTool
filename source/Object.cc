@@ -2,15 +2,12 @@
 /// @author xianghongli\@hikvision.com.cn
 /// @date 2024-11-08.
 /// HangZhou HikVision Digital Technology Co., Ltd. All Right Reserved.
+
 #include <DBDiffTool/object/Object.hh>
 
-Schema::         Schema() = default;
-void             Schema::SetName(std::string_view name) { schema_name_ = name; }
-table_t          Schema::Last() { return tables_.back(); }
-std::string_view Schema::Name() const { return schema_name_; }
-std::vector<table_t>     Schema::Tbl() const { return tables_; }
-std::vector<sequence_t>  Schema::Seq() const { return sequences_; }
-std::vector<procedure_t> Schema::Pro() const { return procedure_; }
+Schema::Schema() = default;
+
+void Schema::SetName(std::string_view name) { schema_name_ = name; }
 
 Table::Table(std::string_view table_name, std::string_view table_fields,
              std::string_view field_types, std::string_view field_nulls) :
@@ -31,10 +28,15 @@ Table::Table(std::string_view table_name, std::string_view table_fields,
     }
 }
 
-std::vector<field_t>   Table::Col() const { return columns_; }
-std::vector<index_t>   Table::Idx() const { return indexes_; }
-std::vector<trigger_t> Table::Tgr() const { return triggers_; }
+std::vector<sn::tbl_t> Schema::Tbl() const { return tables_; }
+std::vector<sn::seq_t> Schema::Seq() const { return sequences_; }
+std::vector<sn::pro_t> Schema::Pro() const { return procedure_; }
 
+std::vector<sn::col_t> Table::Col() const { return columns_; }
+std::vector<sn::idx_t> Table::Idx() const { return indexes_; }
+std::vector<sn::tgr_t> Table::Tgr() const { return triggers_; }
+
+std::string_view Schema::Name() const { return schema_name_; }
 std::string_view Table::Name() const { return table_name_; }
 std::string_view Sequence::Name() const { return seq_name_; }
 std::string_view Procedure::Name() const { return procedure_name_; }

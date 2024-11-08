@@ -18,8 +18,16 @@ struct Sequence {
     std::int64_t seq_max_{};
     bool         seq_cycle_{};
     ND std::string_view Name() const;
+    static std::string  prefix() {
+        static std::string indent{ "\t" };
+        return indent;
+    }
+    static int w() { return 8; }
 };
 
 using sequence_t = std::shared_ptr<Sequence>;
+namespace sn {
+using seq_t = sequence_t;
+}
 
 #endif // DBDIFFTOOL_SEQUENCE_HH

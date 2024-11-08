@@ -14,6 +14,14 @@ struct Trigger {
     std::string trigger_name_{};
     std::string trigger_md5_{};
     ND std::string_view Name() const;
+    static std::string  prefix() {
+        static std::string indent{ "\t\t" };
+        return indent;
+    }
+    static int w() { return 16; }
 };
 using trigger_t = std::shared_ptr<Trigger>;
+namespace sn {
+using tgr_t = trigger_t;
+}
 #endif // DBDIFFTOOL_TRIGGER_HH

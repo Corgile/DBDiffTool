@@ -71,13 +71,13 @@ private: // NOLINT
         ENSURE_QUERY(conn, orm::SQLite::table_sql(t));
         util::TraverseResultSet(conn, [&]() -> void {
             std::string table_name{ conn->GetString(0) };
-            schema->Emplace<Table>(   //
+            auto& last = schema->Emplace<Table>(   //
                 table_name,         // table_name
                 conn->GetString(1), // table_fields
                 conn->GetString(2), // field_types
                 conn->GetString(3)  // field_nulls
             );
-            table_map_.emplace(table_name, schema->Last());
+            table_map_.emplace(table_name, last);
         });
     }
 

@@ -11,7 +11,7 @@
 
 struct string_less {
     bool operator()(std::string_view a, std::string_view b) const {
-        /// 必须与 SQL 语句 ORDER BY LENGTH(xxx), xxx 效果Same
+        /// 必须与 SQL 语句 ORDER BY LENGTH(xxx), xxx 效果一致
         return a.size() < b.size() or (a.size() == b.size() and a < b);
     }
 };
@@ -27,9 +27,9 @@ auto nameof() -> std::string {
     auto const  type_end{ name.find_last_of('>') };
     name = name.substr(type_beg, type_end - type_beg);
     if constexpr (locale == Lang::CN) {
-        return glb::name2cn.at(name);
+        name = glb::name2cn.at(name);
     }
-    return name;
+    return "\x1B[34;1m" + name + "\x1B[0m";
 }
 
 template <typename T, Lang locale>
@@ -64,72 +64,75 @@ auto Present(std::string_view value) -> std::string {
 
 template <typename T>
     requires shared_ptr_to_aggregate<T>
-void CompareCommon(typename std::vector<T>::const_iterator const& it_a,
-                   typename std::vector<T>::const_iterator const& it_b,
-                   std::stringstream&                             diff) {
+using iterator = typename std::vector<T>::const_iterator;
+
+template <typename T>
+    requires shared_ptr_to_aggregate<T>
+void CompareCommon(iterator<T> const& it_a, iterator<T> const& it_b,
+                   std::stringstream& diff, std::string prefix) {
     std::stringstream ss;
-    ss << "\x1B[1m ==== Comparing Same-named ";
-    ss << detail::nameof<T>() << ":" << (*it_a)->Name() << " ====\x1B[0m";
+    ss << "Comparing same named " << detail::nameof<T>() << ": \x1B[1m";
+    std::string new_prefix{ prefix.append(1, '.').append((*it_a)->Name()) };
+    ss << new_prefix << "\x1B[0m\n";
     auto const size_before{ ss.str().size() };
     if constexpr (std::is_same_v<T, schema_t>) {
-        Compare<table_t>((*it_a)->Tbl(), (*it_b)->Tbl(), diff);
-        Compare<sequence_t>((*it_a)->Seq(), (*it_b)->Seq(), diff);
-        Compare<procedure_t>((*it_a)->Pro(), (*it_b)->Pro(), diff);
+        Compare<sn::tbl_t>((*it_a)->Tbl(), (*it_b)->Tbl(), ss, prefix);
+        Compare<sn::seq_t>((*it_a)->Seq(), (*it_b)->Seq(), ss, prefix);
+        Compare<sn::pro_t>((*it_a)->Pro(), (*it_b)->Pro(), ss, prefix);
     } else if constexpr (std::is_same_v<T, table_t>) {
-        Compare<field_t>((*it_a)->Col(), (*it_b)->Col(), diff);
-        Compare<index_t>((*it_a)->Idx(), (*it_b)->Idx(), diff);
-        Compare<trigger_t>((*it_a)->Tgr(), (*it_b)->Tgr(), diff);
+        Compare<sn::col_t>((*it_a)->Col(), (*it_b)->Col(), ss, prefix);
+        Compare<sn::idx_t>((*it_a)->Idx(), (*it_b)->Idx(), ss, prefix);
+        Compare<sn::tgr_t>((*it_a)->Tgr(), (*it_b)->Tgr(), ss, prefix);
     }
-    if (ss.str().size() == size_before) {
-        ss << "\tSame\n";
+    if (ss.str().size() not_eq size_before) {
+        diff << ss.str();
     }
-    diff << ss.str();
 }
 
 template <typename T>
     requires shared_ptr_to_aggregate<T>
 void Compare(std::vector<T> const& listA, std::vector<T> const& listB,
-             std::stringstream& diff) {
+             std::stringstream& diff, std::string prefix = "") {
+    using OBJ = typename T::template element_type;
     std::stringstream ss;
-    ss << "\x1B[1m ==== Comparing ";
-    ss << detail::nameof<T>() << "s: ==== \x1B[0m\n";
+    ss << T::element_type::prefix() << prefix << "." << detail::nameof<T>()
+       << ":\n";
     auto const size_before{ ss.str().size() };
-
-    auto it_a{ listA.begin() }, it_b{ listB.begin() };
+    auto       it_a{ listA.begin() }, it_b{ listB.begin() };
     while (it_a not_eq listA.end() and it_b not_eq listB.end()) {
         std::string_view const elem_name_a{ (*it_a)->Name() };
         std::string_view const elem_name_b{ (*it_b)->Name() };
         if (elem_name_a == elem_name_b) {
-            if constexpr (std::is_same_v<T, schema_t> or
-                          std::is_same_v<T, table_t>) {
-                CompareCommon<T>(it_a, it_b, ss); // DFS
+            if constexpr (std::is_same_v<T, sn::scm_t> or
+                          std::is_same_v<T, sn::tbl_t>) {
+                CompareCommon<T>(it_a, it_b, ss, prefix); // DFS
             }
             ++it_a;
             ++it_b;
         } else if (string_less{}(elem_name_a, elem_name_b)) {
-            ss << std::setw(80) << Present<T, Lang::EN>(elem_name_a);
+            ss << std::setw(10 + OBJ::w()) << Present<T, Lang::EN>(elem_name_a);
             ss << " | " << Absent<T, Lang::EN>() << '\n';
             ++it_a;
         } else if (string_less{}(elem_name_b, elem_name_a)) {
-            ss << std::setw(80) << Absent<T, Lang::EN>() << " | "
+            ss << std::setw(84) << Absent<T, Lang::EN>() << " | "
                << Present<T, Lang::EN>(elem_name_b) << '\n';
             ++it_b;
         }
     }
     while (it_a not_eq listA.end()) {
-        ss << std::setw(80) << Present<T, Lang::EN>((*it_a)->Name());
+        ss << std::setw(10 + OBJ::w()) << Present<T, Lang::EN>((*it_a)->Name());
         ss << " | " << Absent<T, Lang::EN>() << '\n';
         ++it_a;
     }
     while (it_b not_eq listB.end()) {
-        ss << std::setw(80) << Absent<T, Lang::EN>() << " | "
+        ss << std::setw(84) << Absent<T, Lang::EN>() << " | "
            << Present<T, Lang::EN>((*it_b)->Name()) << '\n';
         ++it_b;
     }
-    if (ss.str().size() == size_before) {
-        ss << "\tSame\n";
+    if (ss.str().size() not_eq size_before) {
+        diff << ss.str();
+        diff << OBJ::prefix() << "------------------------------------------\n";
     }
-    diff << ss.str();
 }
 
 }

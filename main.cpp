@@ -16,8 +16,9 @@ int main(int argc, char* const* argv) {
     auto const listB{ dsB.SchemaList(orm::type::table) };
 
     std::stringstream diff;
+    std::cout << std::setw(50) << glb::enum2str.at(dsA.Type());
+    std::cout << " | " << glb::enum2str.at(dsB.Type()) << "\n";
     compare::Compare(listA, listB, diff);
-    std::cout << "Hello, World!" << std::endl;
     std::cout << diff.str() << std::endl;
     return 0;
 }
