@@ -22,7 +22,7 @@
 namespace compare {
 namespace detail {
 template <typename T, Lang locale = Lang::CN>
-    requires shared_ptr_to_aggregate<T>
+    requires sharedptr_to_aggregate<T>
 auto nameof() -> std::string {
     /// name的格式应该类似于`class std::shared_ptr<struct Table>`
     std::string name{ typeid(T).name() };
@@ -36,7 +36,7 @@ auto nameof() -> std::string {
 }
 
 template <typename T, Lang locale>
-    requires shared_ptr_to_aggregate<T>
+    requires sharedptr_to_aggregate<T>
 auto no_such() -> std::string {
     std::string       ret{};
     std::string const name{ nameof<T, locale>() };
@@ -52,52 +52,53 @@ auto no_such() -> std::string {
 } // namespace detail
 
 template <typename T, Lang locale = Lang::EN>
-    requires shared_ptr_to_aggregate<T>
+    requires sharedptr_to_aggregate<T>
 auto Absent() -> std::string {
     return detail::no_such<T, locale>();
 }
 
-template <typename T, Lang locale>
-auto Present(std::string_view value) -> std::string {
-    return { value.data() };
+template <typename T, Lang locale> // NOLINT
+auto Present(std::string_view value) -> std::string_view {
+    return value; // NOLINT
 }
 
 template <typename T>
-    requires shared_ptr_to_aggregate<T>
+    requires sharedptr_to_aggregate<T>
 struct Less {
     bool operator()(iterator<T> const& a, iterator<T> const& b) const {
         /// 必须与 SQL 语句 ORDER BY LENGTH(xxx), xxx 效果一致
-        auto const val_a{ (*a)->Key() }, val_b{ (*b)->Key() };
+        auto const val_a{ (*a)->Key() };
+        auto const val_b{ (*b)->Key() };
         return val_a.size() < val_b.size() or
             (val_a.size() == val_b.size() and val_a < val_b);
     }
 };
 
 template <typename T>
-    requires shared_ptr_to_aggregate<T>
+    requires sharedptr_to_aggregate<T>
 struct Equal {
     bool operator()(iterator<T> const& a, iterator<T> const& b) const {
-        auto const key_a{ (*a)->Key() }, key_b{ (*b)->Key() };
+        auto const key_a{ (*a)->Key() };
+        auto const key_b{ (*b)->Key() };
         return key_a == key_b;
     }
 };
 
 template <typename T>
-    requires shared_ptr_to_aggregate<T>
+    requires sharedptr_to_aggregate<T>
 void Compare(std::vector<T> const& listA, std::vector<T> const& listB,
              std::stringstream& diff, std::string_view dsa,
-             std::string_view dsb, std::string prefix = "");
+             std::string_view dsb, std::string_view prefix = "");
 
 template <typename T>
-    requires shared_ptr_to_aggregate<T>
+    requires sharedptr_to_aggregate<T>
 void CompareCommon(iterator<T> const& it_a, iterator<T> const& it_b,
                    std::stringstream& diff, std::string_view dsa,
-                   std::string_view dsb, std::string pfx) {
+                   std::string_view dsb, std::string_view pfx) {
     std::stringstream ss;
     ss << WHTB "Comparing same named " CYNB << detail::nameof<T, Lang::EN>()
        << RST ":";
-    std::string const new_prefix{ pfx + "." };
-    ss << BOLD << new_prefix << (*it_a)->Name() << RST << "\n";
+    ss << BOLD << pfx << '.' << (*it_a)->Name() << RST << "\n";
     auto const size_before{ ss.str().size() };
     if constexpr (std::is_same_v<T, schema_t>) {
         Compare<sn::tbl_t>((*it_a)->Tbl(), (*it_b)->Tbl(), ss, dsa, dsb, pfx);
@@ -114,7 +115,7 @@ void CompareCommon(iterator<T> const& it_a, iterator<T> const& it_b,
 }
 
 template <typename T>
-    requires shared_ptr_to_aggregate<T>
+    requires sharedptr_to_aggregate<T>
 void Compare(std::vector<T> const& listA, std::vector<T> const& listB,
              std::stringstream& diff, std::string_view dsa,
              std::string_view dsb, std::string prefix) {

@@ -22,7 +22,6 @@ public:
 
     template <typename T, typename... Args>
     auto& Emplace(Args&&... args) {
-        // static std::shared_ptr<T> error_instance{};
         if constexpr (std::is_same_v<T, Table>) {
             return tables_.emplace_back(MAKE_SHARED);
         }
@@ -32,8 +31,6 @@ public:
         if constexpr (std::is_same_v<T, Procedure>) {
             return procedure_.emplace_back(MAKE_SHARED);
         }
-        // unreachable
-        // return error_instance;
     }
 
     ND std::string_view Key() const;

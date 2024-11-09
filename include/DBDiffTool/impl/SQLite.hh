@@ -8,7 +8,6 @@
 
 #include <filesystem>
 #include <mutex>
-#include <ranges>
 #include <thread>
 
 #include <DBLayer/DBLayer.h>

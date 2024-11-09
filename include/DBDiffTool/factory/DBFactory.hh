@@ -9,6 +9,7 @@
 #include <DBDiffTool/DBDiffTool.hh>
 
 using DataSourceVariant =
-    std::variant<DataSource<db::PostgreSQL>, DataSource<db::SQLite>>;
+    std::variant<DataSource<db::PostgreSQL>, DataSource<db::SQLite>,
+                 DataSource<db::MySQL>>;
 
 auto CreateDataSource(DBParam& param) -> DataSourceVariant;

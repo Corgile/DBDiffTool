@@ -11,32 +11,11 @@ concept is_string_like = requires(T a) {
     { std::string{ a } } -> std::convertible_to<std::string>;
 };
 
-template <typename T>
-struct is_template_instance : std::false_type {};
-
-template <template <typename...> class Template, typename... Args>
-struct is_template_instance<Template<Args...>> : std::true_type {};
+template <typename T> // NOLINT
+struct is_shared_ptr : std::false_type {};
 
 template <typename T>
-struct is_container {
-private:
-    template <typename C>
-    static constexpr bool has_begin_end(int) {
-        return requires(C c) {
-            { c.begin() } -> std::input_or_output_iterator;
-            { c.cbegin() } -> std::input_or_output_iterator;
-            { c.end() } -> std::input_or_output_iterator;
-            { c.cend() } -> std::input_or_output_iterator;
-        };
-    }
-    template <typename C>
-    static constexpr bool has_begin_end(...) {
-        return false;
-    }
-
-public:
-    static constexpr bool value{ has_begin_end<T>(0) and !std::is_array_v<T> };
-};
+struct is_shared_ptr<std::shared_ptr<T>> : std::true_type {};
 
 template <typename T>
 concept has_key_method = requires(T t) {
@@ -44,16 +23,21 @@ concept has_key_method = requires(T t) {
     { t.Name() } -> is_string_like;
 };
 
+#define ELEM_TYPE typename T::element_type
 template <typename T>
-concept shared_ptr_to_aggregate = requires {
+concept sharedptr_to_aggregate = requires {
+    requires is_shared_ptr<T>::value;
+} and requires {
     typename T::element_type;
-    requires not is_template_instance<typename T::element_type>::value;
-    requires not is_container<typename T::element_type>::value;
-    requires std::is_class_v<typename T::element_type>;
-    requires std::is_same_v<std::shared_ptr<typename T::element_type>, T>;
-    requires has_key_method<typename T::element_type>;
+    { std::is_aggregate_v<ELEM_TYPE> } -> std::convertible_to<bool>;
+    requires has_key_method<ELEM_TYPE>;
+} and requires {
+    std::is_same_v<typename std::remove_cvref_t<T>::element_type, ELEM_TYPE>;
+} and requires(T t) {
+    { *t } -> std::convertible_to<ELEM_TYPE>;
 };
+#undef ELEM_TYPE
 
 template <typename T>
-    requires shared_ptr_to_aggregate<T>
+    requires sharedptr_to_aggregate<T>
 using iterator = typename std::vector<T>::const_iterator;

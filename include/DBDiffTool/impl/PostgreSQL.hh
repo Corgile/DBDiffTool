@@ -1,10 +1,10 @@
 ﻿//
-// DBDiffTool / PostgreSql.hh
+// DBDiffTool / PostgreSQL.hh
 // Created by bryant on 2024 Nov 06.
 //
 
-#ifndef POSTGRESQL_HH
-#define POSTGRESQL_HH
+#ifndef DB_IMPL_POSTGRESQL_HH
+#define DB_IMPL_POSTGRESQL_HH
 
 #include <DBLayer/DBLayer.h>
 
@@ -17,8 +17,8 @@ class PostgreSQL {
 public:
     explicit PostgreSQL(DBParam&& param) : param_{ std::move(param) } {
         DBLayer_Init(param_);
-        Module_Register(param_, "PPPPPPP");
-        connect_ = DBLayer_ApplyConn("PPPPPPP");
+        Module_Register(param_, INSTANCE(PostgreSQL));
+        connect_ = DBLayer_ApplyConn(INSTANCE(PostgreSQL));
     }
 
     static std::string_view Name() { return orm::PostgreSQL::Name(); }
@@ -118,7 +118,6 @@ private:
 
 private: // NOLINT
     bool        initialized_{};
-    std::string instance_name_{};
     DBParam     param_{};
     CConnect*   connect_{};
 
@@ -130,4 +129,4 @@ private: // NOLINT
 using namespace db::impl;
 } // namespace db
 
-#endif // POSTGRESQL_HH
+#endif // DB_IMPL_POSTGRESQL_HH

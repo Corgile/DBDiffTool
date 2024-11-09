@@ -13,7 +13,8 @@
 #ifndef DBDIFFTOOL_ORM_HH
 #define DBDIFFTOOL_ORM_HH
 
-#include <DBDiffTool/orm/PostgreSql.hh>
+#include <DBDiffTool/orm/MySQL.hh>
+#include <DBDiffTool/orm/PostgreSQL.hh>
 #include <DBDiffTool/orm/SqLite.hh>
 #include <DBDiffTool/orm/Type.hh>
 

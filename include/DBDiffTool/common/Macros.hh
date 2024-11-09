@@ -26,4 +26,7 @@
         HANDLE_ERROR(conn);                                                    \
     }
 #define MAKE_SHARED std::make_shared<T>(std::forward<Args>(args)...)
+
+#define INSTANCE(x) "DBDiffTool_"#x
+
 #endif // MACROS_HH

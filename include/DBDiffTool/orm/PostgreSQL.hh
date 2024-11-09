@@ -1,10 +1,10 @@
 ﻿//
-// DBDiffTool / PostgreSql.hh
+// DBDiffTool / PostgreSQL.hh
 // Created by bryant on 2024 Nov 06.
 //
 
-#ifndef DBDIFFTOOL_POSTGRESQL_HH
-#define DBDIFFTOOL_POSTGRESQL_HH
+#ifndef ORM_POSTGRESQL_HH
+#define ORM_POSTGRESQL_HH
 
 #include <string>
 
@@ -134,4 +134,4 @@ ORDER BY LENGTH(tbl.relname),table_name,LENGTH(trig.tgname),trigger_name;)" };
 };
 } // namespace orm
 
-#endif // DBDIFFTOOL_POSTGRESQL_HH
+#endif // ORM_POSTGRESQL_HH
