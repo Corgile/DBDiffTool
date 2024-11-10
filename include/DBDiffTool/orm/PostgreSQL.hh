@@ -1,10 +1,8 @@
-﻿//
-// DBDiffTool / PostgreSQL.hh
-// Created by bryant on 2024 Nov 06.
-//
-
-#ifndef ORM_POSTGRESQL_HH
-#define ORM_POSTGRESQL_HH
+﻿/// @file PostgreSQL.hh
+/// @author xianghongli\@hikvision.com.cn
+/// @date 2024-11-06.
+/// HangZhou HikVision Digital Technology Co., Ltd. All Right Reserved.
+#pragma once
 
 #include <string>
 
@@ -133,5 +131,3 @@ ORDER BY LENGTH(tbl.relname),table_name,LENGTH(trig.tgname),trigger_name;)" };
     }
 };
 } // namespace orm
-
-#endif // ORM_POSTGRESQL_HH

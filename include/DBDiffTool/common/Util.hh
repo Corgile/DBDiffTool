@@ -1,10 +1,8 @@
-﻿//
-// DBDiffTool / Util.hh
-// Created by bryant on 2024 Nov 06.
-//
-
-#ifndef DBDIFFTOOL_UTIL_HH
-#define DBDIFFTOOL_UTIL_HH
+﻿/// @file Global.hh
+/// @author xianghongli\@hikvision.com.cn
+/// @date 2024-11-06.
+/// HangZhou HikVision Digital Technology Co., Ltd. All Right Reserved.
+#pragma once
 
 #include <filesystem>
 #include <functional>
@@ -32,5 +30,3 @@ void TraverseResultSet(CConnect* conn, std::function<void()> const& func);
 void SplitString(std::string_view str, std::vector<std::string>& tokens);
 
 } // namespace util
-
-#endif // DBDIFFTOOL_UTIL_HH

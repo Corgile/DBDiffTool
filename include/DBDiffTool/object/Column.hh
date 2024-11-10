@@ -1,10 +1,8 @@
-﻿//
-// DBDiffTool / Column.hh
-// Created by bryant on 2024 Nov 06.
-//
-
-#ifndef DBDIFFTOOL_COLUMN_HH
-#define DBDIFFTOOL_COLUMN_HH
+﻿/// @file Column.hh
+/// @author xianghongli\@hikvision.com.cn
+/// @date 2024-11-06.
+/// HangZhou HikVision Digital Technology Co., Ltd. All Right Reserved.
+#pragma once
 
 #include <memory>
 #include <string>
@@ -34,5 +32,3 @@ using field_t = std::shared_ptr<Field>;
 namespace sn { // short name
 using col_t = field_t;
 }
-
-#endif // DBDIFFTOOL_COLUMN_HH

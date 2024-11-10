@@ -118,7 +118,7 @@ template <typename T>
     requires sharedptr_to_aggregate<T>
 void Compare(std::vector<T> const& listA, std::vector<T> const& listB,
              std::stringstream& diff, std::string_view dsa,
-             std::string_view dsb, std::string prefix) {
+             std::string_view dsb, std::string_view prefix) {
     using OBJ = typename T::template element_type;
     std::stringstream ss;
     ss << OBJ::prefix() << prefix << "." << BLUB

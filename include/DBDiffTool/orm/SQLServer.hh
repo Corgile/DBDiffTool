@@ -1,4 +1,4 @@
-﻿/// @file MySQL.hh
+﻿/// @file SQLServer.hh
 /// @author xianghongli\@hikvision.com.cn
 /// @date 2024-11-10.
 /// HangZhou HikVision Digital Technology Co., Ltd. All Right Reserved.
@@ -9,9 +9,9 @@
 #include <DBDiffTool/orm/Type.hh>
 
 namespace orm {
-struct MySQL {
+struct SQLServer {
     static std::string_view Name() {
-        static std::string name{ "MySQL" };
+        static std::string name{ "SQLServer" };
         return name;
     }
     /// 第一级元数据 - schema_table / schema_view

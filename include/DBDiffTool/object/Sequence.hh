@@ -1,10 +1,8 @@
-﻿//
-// DBDiffTool / Sequence.hh
-// Created by bryant on 2024 Nov 06.
-//
-
-#ifndef DBDIFFTOOL_SEQUENCE_HH
-#define DBDIFFTOOL_SEQUENCE_HH
+﻿/// @file Sequence.hh
+/// @author xianghongli\@hikvision.com.cn
+/// @date 2024-11-06.
+/// HangZhou HikVision Digital Technology Co., Ltd. All Right Reserved.
+#pragma once
 
 #include <memory>
 #include <ostream>
@@ -37,5 +35,3 @@ using sequence_t = std::shared_ptr<Sequence>;
 namespace sn { // short name
 using seq_t = sequence_t;
 }
-
-#endif // DBDIFFTOOL_SEQUENCE_HH

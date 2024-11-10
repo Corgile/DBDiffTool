@@ -1,10 +1,8 @@
-﻿//
-// DBDiffTool / DBDiffTool.hh
-// Created by bryant on 2024 Nov 06.
-//
-
-#ifndef DBDIFFTOOL_DBDIFFTOOL_HH
-#define DBDIFFTOOL_DBDIFFTOOL_HH
+﻿/// @file DBDiffTool.hh
+/// @author xianghongli\@hikvision.com.cn
+/// @date 2024-11-06.
+/// HangZhou HikVision Digital Technology Co., Ltd. All Right Reserved.
+#pragma once
 
 #include <DBDiffTool/DataSource.hh>
 #include <DBDiffTool/common/Util.hh>
@@ -12,5 +10,3 @@
 #include <DBDiffTool/impl/impl.hh>
 #include <DBDiffTool/object/Object.hh>
 #include <DBDiffTool/orm/orm.hh>
-
-#endif // DBDIFFTOOL_DBDIFFTOOL_HH

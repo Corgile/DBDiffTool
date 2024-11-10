@@ -1,10 +1,9 @@
-﻿//
-// DBDiffTool / Trigger.hh
-// Created by bryant on 2024 Nov 06.
-//
+﻿/// @file Trigger.hh
+/// @author xianghongli\@hikvision.com.cn
+/// @date 2024-11-06.
+/// HangZhou HikVision Digital Technology Co., Ltd. All Right Reserved.
+#pragma once
 
-#ifndef DBDIFFTOOL_TRIGGER_HH
-#define DBDIFFTOOL_TRIGGER_HH
 #include <memory>
 #include <string>
 
@@ -30,4 +29,3 @@ using trigger_t = std::shared_ptr<Trigger>;
 namespace sn { // short name
 using tgr_t = trigger_t;
 }
-#endif // DBDIFFTOOL_TRIGGER_HH

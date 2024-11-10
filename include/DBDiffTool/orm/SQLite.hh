@@ -1,10 +1,8 @@
-﻿//
-// DBDiffTool / SqLite.hh
-// Created by bryant on 2024 Nov 06.
-//
-
-#ifndef DBDIFFTOOL_SQLITE_HH
-#define DBDIFFTOOL_SQLITE_HH
+﻿/// @file SQLite.hh
+/// @author xianghongli\@hikvision.com.cn
+/// @date 2024-11-06.
+/// HangZhou HikVision Digital Technology Co., Ltd. All Right Reserved.
+#pragma once
 
 #include <string>
 
@@ -90,5 +88,3 @@ ORDER BY LENGTH(tbl_name), tbl_name, LENGTH(name),name;)" };
     }
 };
 }
-
-#endif //DBDIFFTOOL_SQLITE_HH

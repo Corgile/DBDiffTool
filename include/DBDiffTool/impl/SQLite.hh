@@ -1,10 +1,8 @@
-﻿//
-// DBDiffTool / SQLite.hh
-// Created by bryant on 2024 Nov 06.
-//
-
-#ifndef SQLITE3_HH
-#define SQLITE3_HH
+﻿/// @file SQLite.hh
+/// @author xianghongli\@hikvision.com.cn
+/// @date 2024-11-06.
+/// HangZhou HikVision Digital Technology Co., Ltd. All Right Reserved.
+#pragma once
 
 #include <filesystem>
 #include <mutex>
@@ -148,5 +146,3 @@ private: // NOLINT
 
 using namespace db::impl;
 } // namespace db
-
-#endif // SQLITE3_HH

@@ -1,10 +1,8 @@
-﻿//
-// DBDiffTool / Object.hh
-// Created by bryant on 2024 Nov 06.
-//
-
-#ifndef DBDIFFTOOL_OBJECT_HH
-#define DBDIFFTOOL_OBJECT_HH
+﻿/// @file Object.hh
+/// @author xianghongli\@hikvision.com.cn
+/// @date 2024-11-06.
+/// HangZhou HikVision Digital Technology Co., Ltd. All Right Reserved.
+#pragma once
 
 #include <DBDiffTool/object/Column.hh>
 #include <DBDiffTool/object/Index.hh>
@@ -13,5 +11,3 @@
 #include <DBDiffTool/object/Sequence.hh>
 #include <DBDiffTool/object/Table.hh>
 #include <DBDiffTool/object/Trigger.hh>
-
-#endif //DBDIFFTOOL_OBJECT_HH

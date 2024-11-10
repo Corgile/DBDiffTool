@@ -23,20 +23,20 @@ concept has_key_method = requires(T t) {
     { t.Name() } -> is_string_like;
 };
 
-#define ELEM_TYPE typename T::element_type
 template <typename T>
 concept sharedptr_to_aggregate = requires {
     requires is_shared_ptr<T>::value;
 } and requires {
     typename T::element_type;
+#define ELEM_TYPE typename T::element_type
     { std::is_aggregate_v<ELEM_TYPE> } -> std::convertible_to<bool>;
     requires has_key_method<ELEM_TYPE>;
 } and requires {
     std::is_same_v<typename std::remove_cvref_t<T>::element_type, ELEM_TYPE>;
 } and requires(T t) {
     { *t } -> std::convertible_to<ELEM_TYPE>;
-};
 #undef ELEM_TYPE
+};
 
 template <typename T>
     requires sharedptr_to_aggregate<T>

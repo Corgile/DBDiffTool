@@ -1,10 +1,8 @@
-﻿//
-// DBDiffTool / Index.hh
-// Created by bryant on 2024 Nov 06.
-//
-
-#ifndef DBDIFFTOOL_INDEX_HH
-#define DBDIFFTOOL_INDEX_HH
+﻿/// @file Index.hh
+/// @author xianghongli\@hikvision.com.cn
+/// @date 2024-11-06.
+/// HangZhou HikVision Digital Technology Co., Ltd. All Right Reserved.
+#pragma once
 
 #include <memory>
 #include <string>
@@ -33,5 +31,3 @@ using index_t = std::shared_ptr<Index>;
 namespace sn { // short name
 using idx_t = index_t;
 }
-
-#endif // DBDIFFTOOL_INDEX_HH

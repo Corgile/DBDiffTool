@@ -1,10 +1,8 @@
-﻿//
-// DBDiffTool / Global.hh
-// Created by bryant on 2024 Nov 06.
-//
-
-#ifndef DBDIFFTOOL_GLOBAL_HH
-#define DBDIFFTOOL_GLOBAL_HH
+﻿/// @file Global.hh
+/// @author xianghongli\@hikvision.com.cn
+/// @date 2024-11-06.
+/// HangZhou HikVision Digital Technology Co., Ltd. All Right Reserved.
+#pragma once
 
 #include <string>
 #include <unordered_map>
@@ -19,4 +17,3 @@ extern const std::unordered_map<DBTYPE, std::string_view> enum2str;
 
 extern bool heterogeneous;
 } // namespace glb
-#endif // DBDIFFTOOL_GLOBAL_HH

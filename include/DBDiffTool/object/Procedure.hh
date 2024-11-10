@@ -1,10 +1,9 @@
-﻿//
-// DBDiffTool / Procedure.hh
-// Created by bryant on 2024 Nov 06.
-//
+﻿/// @file Procedure.hh
+/// @author xianghongli\@hikvision.com.cn
+/// @date 2024-11-06.
+/// HangZhou HikVision Digital Technology Co., Ltd. All Right Reserved.
+#pragma once
 
-#ifndef DBDIFFTOOL_PROCEDURE_HH
-#define DBDIFFTOOL_PROCEDURE_HH
 #include <memory>
 #include <string>
 
@@ -30,4 +29,3 @@ using procedure_t = std::shared_ptr<Procedure>;
 namespace sn { // short name
 using pro_t = procedure_t;
 }
-#endif // DBDIFFTOOL_PROCEDURE_HH

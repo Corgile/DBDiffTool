@@ -1,10 +1,8 @@
-﻿//
-// DBDiffTool / Table.hh
-// Created by bryant on 2024 Nov 06.
-//
-
-#ifndef DBDIFFTOOL_TABLE_HH
-#define DBDIFFTOOL_TABLE_HH
+﻿/// @file Table.hh
+/// @author xianghongli\@hikvision.com.cn
+/// @date 2024-11-06.
+/// HangZhou HikVision Digital Technology Co., Ltd. All Right Reserved.
+#pragma once
 
 #include <memory>
 
@@ -56,5 +54,3 @@ using view_t  = std::shared_ptr<View>;
 namespace sn { // short name
 using tbl_t = table_t;
 }
-
-#endif // DBDIFFTOOL_TABLE_HH

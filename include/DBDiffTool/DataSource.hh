@@ -1,17 +1,15 @@
-﻿//
-// DBDiffTool / DataSource.hh
-// Created by bryant on 2024 Nov 06.
-//
-
-#ifndef DBDIFFTOOL_DATASOURCE_HH
-#define DBDIFFTOOL_DATASOURCE_HH
+﻿/// @file DataSource.hh
+/// @author xianghongli\@hikvision.com.cn
+/// @date 2024-11-06.
+/// HangZhou HikVision Digital Technology Co., Ltd. All Right Reserved.
+#pragma once
 
 #include <vector>
 
 #include <DBLayer/DBLayer.h>
 
-#include <DBDiffTool/common/Macros.hh>
 #include <DBDiffTool/common/Global.hh>
+#include <DBDiffTool/common/Macros.hh>
 #include <DBDiffTool/common/Traits.hh>
 #include <DBDiffTool/object/Object.hh>
 #include <DBDiffTool/orm/Type.hh>
@@ -48,5 +46,3 @@ private: // NOLINT
     DataBase    dsImpl_;
     glb::DBTYPE db_type_;
 };
-
-#endif // DBDIFFTOOL_DATASOURCE_HH

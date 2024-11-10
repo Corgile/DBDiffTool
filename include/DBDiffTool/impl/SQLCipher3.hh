@@ -1,4 +1,4 @@
-﻿/// @file MySQL.hh
+﻿/// @file SQLCipher3.hh
 /// @author xianghongli\@hikvision.com.cn
 /// @date 2024-11-10.
 /// HangZhou HikVision Digital Technology Co., Ltd. All Right Reserved.
@@ -11,23 +11,23 @@
 
 namespace db {
 namespace impl {
-class MySQL {
+class SQLCipher3 {
 public:
-    explicit MySQL(DBParam&& param) : param_{ std::move(param) } {
+    explicit SQLCipher3(DBParam&& param) : param_{ std::move(param) } {
         DBLayer_Init(param_);
-        Module_Register(param_, INSTANCE(MySQL));
-        connect_ = DBLayer_ApplyConn(INSTANCE(MySQL));
+        Module_Register(param_, INSTANCE(SQLCipher3));
+        connect_ = DBLayer_ApplyConn(INSTANCE(SQLCipher3));
     }
 
-    static std::string_view Name() { return orm::MySQL::Name(); }
+    static std::string_view Name() { return orm::SQLCipher3::Name(); }
 
     ND std::vector<schema_t> SchemaList(orm::type const t) const {
         static_cast<void>(t);
         static_cast<void>(this);
-        throw std::runtime_error{ "MySQL::SchemaList not implemented!" };
+        throw std::runtime_error{ "SQLCipher3::SchemaList not implemented!" };
     }
 
-    ~MySQL() { DBLayer_FreeConn(connect_); }
+    ~SQLCipher3() { DBLayer_FreeConn(connect_); }
 
 private:
     void FillTableList(std::vector<schema_t>& schemas,
@@ -35,27 +35,27 @@ private:
         static_cast<void>(schemas[0] = nullptr);
         static_cast<void>(orm_type);
         static_cast<void>(this);
-        throw std::runtime_error{ "MySQL::FillTableList not implemented!" };
+        throw std::runtime_error{ "SQLCipher3::FillTableList not implemented!" };
     }
 
     void FillSequenceList() const {
         static_cast<void>(this);
-        throw std::runtime_error{ "MySQL::FillSequenceList not implemented!" };
+        throw std::runtime_error{ "SQLCipher3::FillSequenceList not implemented!" };
     }
 
     void FillProcedureList() const {
         static_cast<void>(this);
-        throw std::runtime_error{ "MySQL::FillProcedureList not implemented!" };
+        throw std::runtime_error{ "SQLCipher3::FillProcedureList not implemented!" };
     }
 
     void FillTableIndex() const {
         static_cast<void>(this);
-        throw std::runtime_error{ "MySQL::FillTableIndex not implemented!" };
+        throw std::runtime_error{ "SQLCipher3::FillTableIndex not implemented!" };
     }
 
     void FillTableTrigger() const {
         static_cast<void>(this);
-        throw std::runtime_error{ "MySQL::FillTableTrigger not implemented!" };
+        throw std::runtime_error{ "SQLCipher3::FillTableTrigger not implemented!" };
     }
 
 private: // NOLINT

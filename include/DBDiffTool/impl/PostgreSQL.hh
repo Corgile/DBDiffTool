@@ -1,10 +1,8 @@
-﻿//
-// DBDiffTool / PostgreSQL.hh
-// Created by bryant on 2024 Nov 06.
-//
-
-#ifndef DB_IMPL_POSTGRESQL_HH
-#define DB_IMPL_POSTGRESQL_HH
+﻿/// @file PostgreSQL.hh
+/// @author xianghongli\@hikvision.com.cn
+/// @date 2024-11-06.
+/// HangZhou HikVision Digital Technology Co., Ltd. All Right Reserved.
+#pragma once
 
 #include <DBLayer/DBLayer.h>
 
@@ -49,7 +47,7 @@ private:
                 schema->SetName(last_schema);
                 auto& last{ schemas.emplace_back(std::move(schema)) };
                 schema = std::make_shared<Schema>();
-                schema_map_.emplace(last_schema, last);
+                scm_map_.emplace(last_schema, last);
                 last_schema = curr_schema;
             }
             auto const table_name{ connect_->GetString(1) };
@@ -60,7 +58,7 @@ private:
                 connect_->GetString(3),          // field_types
                 connect_->GetString(4)           // field_nulls
             );
-            table_map_.emplace(table_name, last);
+            tbl_map_.emplace(table_name, last);
         });
     }
 
@@ -68,7 +66,7 @@ private:
         ENSURE_QUERY(connect_, orm::PostgreSQL::sequence_sql());
         util::TraverseResultSet(connect_, [&]() -> void {
             auto const  curr_schema{ connect_->GetString(0) };
-            auto const& schema{ schema_map_.at(curr_schema) };
+            auto const& schema{ scm_map_.at(curr_schema) };
             schema->Emplace<Sequence>(  //
                 connect_->GetString(1), // seq_name
                 connect_->GetInt64(2),  // seq_min
@@ -83,7 +81,7 @@ private:
         ENSURE_QUERY(connect_, orm::PostgreSQL::procedure_sql());
         util::TraverseResultSet(connect_, [&]() -> void {
             auto const  curr_schema{ connect_->GetString(0) };
-            auto const& schema{ schema_map_.at(curr_schema) };
+            auto const& schema{ scm_map_.at(curr_schema) };
             schema->Emplace<Procedure>( //
                 connect_->GetString(1), // procedure_name
                 connect_->GetString(2)  // procedure_md5
@@ -95,7 +93,7 @@ private:
         ENSURE_QUERY(connect_, orm::PostgreSQL::index_sql());
         util::TraverseResultSet(connect_, [&]() -> void {
             auto const     table_name{ connect_->GetString(0) };
-            table_t const& table{ table_map_.at(table_name) };
+            table_t const& table{ tbl_map_.at(table_name) };
             table->Emplace<Index>(      //
                 connect_->GetString(1), // index_name
                 connect_->GetString(2), // indexed_fields
@@ -108,7 +106,7 @@ private:
         ENSURE_QUERY(connect_, orm::PostgreSQL::trigger_sql());
         util::TraverseResultSet(connect_, [&]() -> void {
             auto const     table_name{ connect_->GetString(0) };
-            table_t const& table{ table_map_.at(table_name) };
+            table_t const& table{ tbl_map_.at(table_name) };
             table->Emplace<Trigger>(    //
                 connect_->GetString(1), // trigger_name
                 connect_->GetString(2)  // trigger_md5
@@ -117,16 +115,14 @@ private:
     }
 
 private: // NOLINT
-    bool        initialized_{};
-    DBParam     param_{};
-    CConnect*   connect_{};
+    DBParam   param_{};
+    CConnect* connect_{};
 
-    std::map<std::string, table_t> mutable table_map_{};
-    std::map<std::string, schema_t> mutable schema_map_{};
+    std::map<std::string, sn::tbl_t> mutable tbl_map_{};
+    std::map<std::string, sn::scm_t> mutable scm_map_{};
 };
 } // namespace impl
 
 using namespace db::impl;
 } // namespace db
 
-#endif // DB_IMPL_POSTGRESQL_HH

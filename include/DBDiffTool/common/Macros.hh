@@ -1,10 +1,8 @@
-﻿//
-// DBDiffTool / Macros.hh
-// Created by bryant on 2024 Nov 06.
-//
-
-#ifndef MACROS_HH
-#define MACROS_HH
+﻿/// @file Macros.hh
+/// @author xianghongli\@hikvision.com.cn
+/// @date 2024-11-06.
+/// HangZhou HikVision Digital Technology Co., Ltd. All Right Reserved.
+#pragma once
 
 #define ND [[nodiscard]]
 
@@ -27,6 +25,4 @@
     }
 #define MAKE_SHARED std::make_shared<T>(std::forward<Args>(args)...)
 
-#define INSTANCE(x) "DBDiffTool_"#x
-
-#endif // MACROS_HH
+#define INSTANCE(x) "DBDiffTool_" #x
