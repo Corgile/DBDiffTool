@@ -6,10 +6,8 @@
 
 #include <string>
 
-#include <DBDiffTool/common/AnsiColor.hh>
-#include <DBDiffTool/common/Global.hh>
-#include <DBDiffTool/common/Traits.hh>
-#include <DBDiffTool/object/Schema.hh>
+#include <DBDiffTool/common/common.hh>
+#include <DBDiffTool/object/object.hh>
 
 #define ABSENT_PRESENT(ss, it, l, r)                                           \
     do {                                                                       \

@@ -5,8 +5,9 @@
 #pragma once
 
 #include <DBDiffTool/DataSource.hh>
-#include <DBDiffTool/common/Util.hh>
+#include <DBDiffTool/common/common.hh>
 #include <DBDiffTool/compare/Comparator.hh>
+#include <DBDiffTool/factory/DBFactory.hh>
 #include <DBDiffTool/impl/impl.hh>
-#include <DBDiffTool/object/Object.hh>
+#include <DBDiffTool/object/object.hh>
 #include <DBDiffTool/orm/orm.hh>

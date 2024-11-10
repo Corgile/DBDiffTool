@@ -6,15 +6,16 @@
 
 #include <variant>
 
-#include <DBDiffTool/DBDiffTool.hh>
+#include <DBDiffTool/DataSource.hh>
+#include <DBDiffTool/impl/impl.hh>
 
 using DataSourceVariant = std::variant< // Trailing
     DataSource<db::SQLite>,             // comments
-    DataSource<db::SQLCipher3>,         // added
-    DataSource<db::MySQL>,              // are
-    DataSource<db::Oracle>,             // used
-    DataSource<db::SQLServer>,          // for
-    DataSource<db::PostgreSQL>,         // line
-    DataSource<db::SQLServerODBC>>;     // breaking
+    DataSource<db::SQLCipher3>,         // ensure
+    DataSource<db::MySQL>,              // better
+    DataSource<db::Oracle>,             // alignment
+    DataSource<db::SQLServer>,          // during
+    DataSource<db::PostgreSQL>,         // code
+    DataSource<db::SQLServerODBC>>;     // reformatting
 
 auto CreateDataSource(DBParam& param) -> DataSourceVariant;

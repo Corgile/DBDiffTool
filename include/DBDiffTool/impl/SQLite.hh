@@ -37,7 +37,8 @@ public:
         }
         for (auto& thread : threads) thread.join();
         std::ranges::sort(schemas, [](schema_cref lhs, schema_cref rhs) {
-            auto const &val_a{ lhs->Name() }, val_b{ rhs->Name() };
+            auto const& val_a{ lhs->Name() };
+            auto const& val_b{ rhs->Name() };
             return val_a.size() < val_b.size() or
                 (val_a.size() == val_b.size() and val_a < val_b);
         });

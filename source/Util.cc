@@ -1,7 +1,8 @@
-﻿//
-// DBDiffTool / Util.cc
-// Created by bryant on 2024 Nov 06.
-//
+﻿/// @file Util.cc
+/// @author xianghongli\@hikvision.com.cn
+/// @date 2024-11-09.
+/// HangZhou HikVision Digital Technology Co., Ltd. All Right Reserved.
+
 #include <filesystem>
 #include <fstream>
 #include <functional>
@@ -16,11 +17,11 @@ void detail::Load(ini_section const& sec, DBParam& param) {
     std::string db_type;
     inipp::get_value(sec, "db.db_type", db_type);
     param.db_type = glb::str2enum.at(db_type);
-    inipp::get_value(sec, "db.db_name", param.db_name);
     inipp::get_value(sec, "db.ip", param.ip);
     inipp::get_value(sec, "db.port", param.port);
     inipp::get_value(sec, "db.user", param.user);
     inipp::get_value(sec, "db.passwd", param.passwd);
+    inipp::get_value(sec, "db.db_name", param.db_name);
     inipp::get_value(sec, "db.min_conn", param.min_conn);
     inipp::get_value(sec, "db.max_conn", param.max_conn);
 }

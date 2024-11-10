@@ -8,10 +8,8 @@
 
 #include <DBLayer/DBLayer.h>
 
-#include <DBDiffTool/common/Global.hh>
-#include <DBDiffTool/common/Macros.hh>
-#include <DBDiffTool/common/Traits.hh>
-#include <DBDiffTool/object/Object.hh>
+#include <DBDiffTool/common/common.hh>
+#include <DBDiffTool/object/object.hh>
 #include <DBDiffTool/orm/Type.hh>
 
 using namespace db_layer;
@@ -30,19 +28,19 @@ template <ConcreteDB DataBase>
 class DataSource final {
 public:
     explicit DataSource(DBParam&& param) :
-        dsImpl_{ std::move(param) }, db_type_{ param.db_type } {}
+        db_type_{ param.db_type }, ds_impl_{ std::move(param) } {}
 
-    ND std::string_view Name() const { return dsImpl_.Name(); }
+    ND std::string_view Name() const { return DataBase::Name(); }
 
     ND std::vector<schema_t> SchemaList(orm::type const t) const {
-        return dsImpl_.SchemaList(t);
+        return ds_impl_.SchemaList(t);
     }
 
     ND glb::DBTYPE Type() const { return db_type_; }
 
     ~DataSource() = default;
 
-private: // NOLINT
-    DataBase    dsImpl_;
+private:
     glb::DBTYPE db_type_;
+    DataBase    ds_impl_;
 };

@@ -1,6 +1,7 @@
-﻿//
-// DBDiffTool / Global.cc
-// Created by bryant on 2024 Nov 06.
+﻿/// @file Global.cc
+/// @author xianghongli\@hikvision.com.cn
+/// @date 2024-11-06.
+/// HangZhou HikVision Digital Technology Co., Ltd. All Right Reserved.
 //
 #include <DBDiffTool/common/Global.hh>
 

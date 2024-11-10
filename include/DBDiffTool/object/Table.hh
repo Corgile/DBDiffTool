@@ -7,7 +7,6 @@
 #include <memory>
 
 #include <DBDiffTool/common/Macros.hh>
-#include <DBDiffTool/common/Util.hh>
 #include <DBDiffTool/object/Column.hh>
 #include <DBDiffTool/object/Index.hh>
 #include <DBDiffTool/object/Trigger.hh>

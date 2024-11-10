@@ -3,8 +3,10 @@
 /// @date 2024-11-08.
 /// HangZhou HikVision Digital Technology Co., Ltd. All Right Reserved.
 
-#include <DBDiffTool/common/Global.hh>
-#include <DBDiffTool/object/Object.hh>
+#include <vector>
+
+#include <DBDiffTool/common/common.hh>
+#include <DBDiffTool/object/object.hh>
 
 Schema::Schema() = default;
 
