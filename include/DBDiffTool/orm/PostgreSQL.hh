@@ -28,7 +28,7 @@ WITH a AS (
     string_agg(cname,       ',' ORDER BY LENGTH(cname),cname) AS fields,
     string_agg(table_types, ',' ORDER BY LENGTH(cname),cname) AS types,
     string_agg(is_nullable, ',' ORDER BY LENGTH(cname),cname) AS nulls
-  FROM a WHERE table_schema NOT IN ('pg_catalog', 'information_schema')
+  FROM a WHERE table_schema NOT like 'pg_%' and table_schema <> 'information_schema'
   GROUP BY table_schema, table_name
   ORDER BY LENGTH(table_schema), table_schema, LENGTH(table_name), table_name
 ) SELECT * FROM b UNION ALL (SELECT 'drop', 'drop', 'drop', 'drop', 'drop');)"
@@ -42,7 +42,7 @@ WITH a AS (
   INNER JOIN information_schema.tables as t
     ON c.table_schema = t.table_schema AND c.table_name = t.table_name
   WHERE t.table_type = 'VIEW'
-    AND c.table_schema NOT IN ('pg_catalog', 'information_schema')
+    AND c.table_schema NOT like 'pg_%' and c.table_schema <> 'information_schema'
   ), b AS (
     SELECT table_schema, table_name,
       string_agg(cname,       ',' ORDER BY LENGTH(cname),cname) AS fields,
@@ -71,7 +71,7 @@ FROM pg_class      AS cls
 JOIN pg_namespace  AS sch ON sch.oid = cls.relnamespace
 JOIN pg_sequence   AS seq ON seq.seqrelid = cls.oid
 WHERE cls.relkind = 'S'
-  AND sch.nspname NOT IN ('pg_toast', 'pg_catalog', 'information_schema')
+  AND sch.nspname NOT like 'pg_%' and sch.nspname <> 'information_schema'
 ORDER BY LENGTH(sch.nspname),sch.nspname,LENGTH(cls.relname),seq_name;)" };
         return sql;
     }
@@ -85,7 +85,7 @@ SELECT
   MD5(pg_get_functiondef(p.oid)) AS procd_md5
 FROM pg_proc AS p
 JOIN pg_namespace AS n ON n.oid = p.pronamespace
-WHERE p.prokind = 'f' AND n.nspname NOT IN ('pg_toast', 'pg_catalog', 'information_schema')
+WHERE p.prokind = 'f' AND n.nspname NOT like 'pg_%' and ns.nspname <> 'information_schema'
 ORDER BY LENGTH(n.nspname),schema_name,LENGTH(p.proname),procd_name;)" };
         return sql;
     }
@@ -105,7 +105,7 @@ WITH index_info AS (
            JOIN pg_namespace AS n ON n.oid = t.relnamespace
            JOIN pg_attribute AS a ON a.attrelid = t.oid
            JOIN UNNEST(idx.indkey) WITH ORDINALITY AS k(attnum, ord) ON a.attnum = k.attnum
-    WHERE n.nspname NOT IN ('pg_toast', 'pg_catalog', 'information_schema')
+    WHERE n.nspname NOT like 'pg_%' and n.nspname <> 'information_schema'
     GROUP BY n.nspname, t.relname, i.relname, i.oid
 ) SELECT table_name, index_name, indexed_fields, index_md5
 FROM index_info ORDER BY LENGTH(table_name), table_name, LENGTH(index_name),index_name;)"
