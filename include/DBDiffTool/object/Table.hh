@@ -36,7 +36,7 @@ struct Table {
     ND std::vector<sn::tgr_t> Tgr() const;
 
     static std::string prefix() {
-        static std::string indent{ "    " };
+        static std::string indent{ "      " };
         return indent;
     }
 

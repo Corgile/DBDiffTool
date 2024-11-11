@@ -1,5 +1,7 @@
 ﻿# DBDiffTool
 
+![diff_res](/static/diff_res.png)
+
 ## 实现思路
 
 （见代码）

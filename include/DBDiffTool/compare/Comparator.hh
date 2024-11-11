@@ -94,18 +94,20 @@ void CompareCommon(iterator<T> const& it_a, iterator<T> const& it_b,
                    std::stringstream& diff, std::string_view dsa,
                    std::string_view dsb, std::string_view pfx) {
     std::stringstream ss;
-    ss << WHTB "Comparing same named " CYNB << detail::nameof<T, Lang::EN>()
-       << RST ":";
-    ss << BOLD << pfx << '.' << (*it_a)->Name() << RST << "\n";
+    using OBJ = typename T::template element_type;
+    ss << OBJ::prefix() << WHTB "Comparing same named " CYNB
+       << detail::nameof<T, Lang::EN>() << RST ":";
+    auto const p{ (*it_a)->Name() };
+    ss << BOLD << pfx << '.' << p << RST << "\n";
     auto const size_before{ ss.str().size() };
     if constexpr (std::is_same_v<T, schema_t>) {
-        Compare<sn::tbl_t>((*it_a)->Tbl(), (*it_b)->Tbl(), ss, dsa, dsb, pfx);
-        Compare<sn::seq_t>((*it_a)->Seq(), (*it_b)->Seq(), ss, dsa, dsb, pfx);
-        Compare<sn::pro_t>((*it_a)->Pro(), (*it_b)->Pro(), ss, dsa, dsb, pfx);
+        Compare<sn::tbl_t>((*it_a)->Tbl(), (*it_b)->Tbl(), ss, dsa, dsb, p);
+        Compare<sn::seq_t>((*it_a)->Seq(), (*it_b)->Seq(), ss, dsa, dsb, p);
+        Compare<sn::pro_t>((*it_a)->Pro(), (*it_b)->Pro(), ss, dsa, dsb, p);
     } else if constexpr (std::is_same_v<T, table_t>) {
-        Compare<sn::col_t>((*it_a)->Col(), (*it_b)->Col(), ss, dsa, dsb, pfx);
-        Compare<sn::idx_t>((*it_a)->Idx(), (*it_b)->Idx(), ss, dsa, dsb, pfx);
-        Compare<sn::tgr_t>((*it_a)->Tgr(), (*it_b)->Tgr(), ss, dsa, dsb, pfx);
+        Compare<sn::col_t>((*it_a)->Col(), (*it_b)->Col(), ss, dsa, dsb, p);
+        Compare<sn::idx_t>((*it_a)->Idx(), (*it_b)->Idx(), ss, dsa, dsb, p);
+        Compare<sn::tgr_t>((*it_a)->Tgr(), (*it_b)->Tgr(), ss, dsa, dsb, p);
     }
     if (ss.str().size() not_eq size_before) {
         diff << ss.str();
@@ -120,7 +122,7 @@ void Compare(std::vector<T> const& listA, std::vector<T> const& listB,
     using OBJ = typename T::template element_type;
     std::stringstream ss;
     ss << OBJ::prefix() << prefix << "." << BLUB
-       << detail::nameof<T, Lang::EN>() << RST ":\n";
+       << detail::nameof<T, Lang::EN>() << RST "(s):\n";
     auto const size_before{ ss.str().size() };
     auto       it_a{ listA.begin() }, it_b{ listB.begin() };
     while (it_a not_eq listA.end() and it_b not_eq listB.end()) {
