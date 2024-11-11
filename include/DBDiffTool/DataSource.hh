@@ -19,7 +19,7 @@ concept ConcreteDB = requires(T db, orm::type t) {
     { T::Name() } -> is_string_like;
     { db.Name() } -> is_string_like;
     { db.SchemaList(t) } -> std::same_as<std::vector<schema_t>>;
-} and requires(DBParam&& param) {
+} and std::movable<T> and requires(DBParam&& param) {
     { T(std::move(param)) } -> std::convertible_to<T>;
     { T(std::forward<DBParam>(param)) } -> std::convertible_to<T>;
 };

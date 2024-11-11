@@ -19,6 +19,25 @@ public:
         connect_ = DBLayer_ApplyConn(INSTANCE(PostgreSQL));
     }
 
+    PostgreSQL(const PostgreSQL& other) :
+        param_{ other.param_ },
+        connect_{ DBLayer_ApplyConn(INSTANCE(PostgreSQL)) },
+        tbl_map_{ other.tbl_map_ }, scm_map_{ other.scm_map_ } {}
+
+    PostgreSQL(PostgreSQL&& other) noexcept :
+        param_{ std::move(other.param_) }, connect_{ other.connect_ },
+        tbl_map_{ std::move(other.tbl_map_) },
+        scm_map_{ std::move(other.scm_map_) } {
+        other.connect_ = nullptr;
+    }
+
+    PostgreSQL& operator=(PostgreSQL other) {
+        using std::swap;
+        swap(*this, other);
+        swap(connect_, other.connect_);
+        return *this;
+    }
+
     static std::string_view Name() { return orm::PostgreSQL::Name(); }
 
     ND std::vector<schema_t> SchemaList(orm::type const t) const {
