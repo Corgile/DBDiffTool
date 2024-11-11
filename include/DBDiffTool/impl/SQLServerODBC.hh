@@ -13,7 +13,8 @@ namespace db {
 namespace impl {
 class SQLServerODBC {
 public:
-    explicit SQLServerODBC(DBParam&& param) : param_{ std::move(param) } {
+    explicit SQLServerODBC(DBParam&& param)
+        : param_{ std::move(param) } {
         DBLayer_Init(param_);
         Module_Register(param_, INSTANCE(SQLServerODBC));
         connect_ = DBLayer_ApplyConn(INSTANCE(SQLServerODBC));

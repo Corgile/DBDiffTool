@@ -1,9 +1,8 @@
-﻿#include <Windows.h>
+﻿#include <Windows.h> // SetConsoleCP
 
 #include <iostream>
 
 #include <DBDiffTool/DBDiffTool.hh>
-
 
 int main(int argc, char* const* argv) {
     SetConsoleCP(65001);

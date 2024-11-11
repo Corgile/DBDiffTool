@@ -13,21 +13,24 @@ namespace db {
 namespace impl {
 class PostgreSQL {
 public:
-    explicit PostgreSQL(DBParam&& param) : param_{ std::move(param) } {
+    explicit PostgreSQL(DBParam&& param)
+        : param_{ std::move(param) } {
         DBLayer_Init(param_);
         Module_Register(param_, INSTANCE(PostgreSQL));
         connect_ = DBLayer_ApplyConn(INSTANCE(PostgreSQL));
     }
 
-    PostgreSQL(const PostgreSQL& other) :
-        param_{ other.param_ },
-        connect_{ DBLayer_ApplyConn(INSTANCE(PostgreSQL)) },
-        tbl_map_{ other.tbl_map_ }, scm_map_{ other.scm_map_ } {}
+    PostgreSQL(const PostgreSQL& other)
+        : param_{ other.param_ }
+        , connect_{ DBLayer_ApplyConn(INSTANCE(PostgreSQL)) }
+        , tbl_map_{ other.tbl_map_ }
+        , scm_map_{ other.scm_map_ } {}
 
-    PostgreSQL(PostgreSQL&& other) noexcept :
-        param_{ std::move(other.param_) }, connect_{ other.connect_ },
-        tbl_map_{ std::move(other.tbl_map_) },
-        scm_map_{ std::move(other.scm_map_) } {
+    PostgreSQL(PostgreSQL&& other) noexcept
+        : param_{ std::move(other.param_) }
+        , connect_{ other.connect_ }
+        , tbl_map_{ std::move(other.tbl_map_) }
+        , scm_map_{ std::move(other.scm_map_) } {
         other.connect_ = nullptr;
     }
 

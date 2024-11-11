@@ -15,15 +15,19 @@
     } while (false)
 
 #define ENSURE_QUERY(conn, sql)                                                \
-    if (not conn->ExecuteQuery(sql)) {                                         \
-        HANDLE_ERROR(conn);                                                    \
-    }
+    do {                                                                       \
+        if (not conn->ExecuteQuery(sql)) {                                     \
+            HANDLE_ERROR(conn);                                                \
+        }                                                                      \
+    } while (false)
 
 #define ENSURE_AFFECT(conn, sql, affected)                                     \
-    if (not conn->ExecuteAffect(sql, affected)) {                              \
-        HANDLE_ERROR(conn);                                                    \
-    }
+    do {                                                                       \
+        if (not conn->ExecuteAffect(sql, affected)) {                          \
+            HANDLE_ERROR(conn);                                                \
+        }                                                                      \
+    } while (false)
 
 #define MAKE_SHARED std::make_shared<T>(std::forward<Args>(args)...)
 
-#define INSTANCE(x) "DBDiffTool_" #x
+#define INSTANCE(x) ("DBDiffTool_" #x)

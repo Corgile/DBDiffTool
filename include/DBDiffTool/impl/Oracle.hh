@@ -13,7 +13,8 @@ namespace db {
 namespace impl {
 class Oracle {
 public:
-    explicit Oracle(DBParam&& param) : param_{ std::move(param) } {
+    explicit Oracle(DBParam&& param)
+        : param_{ std::move(param) } {
         DBLayer_Init(param_);
         Module_Register(param_, INSTANCE(Oracle));
         connect_ = DBLayer_ApplyConn(INSTANCE(Oracle));
@@ -45,7 +46,9 @@ private:
 
     void FillProcedureList() const {
         static_cast<void>(this);
-        throw std::runtime_error{ "Oracle::FillProcedureList not implemented!" };
+        throw std::runtime_error{
+            "Oracle::FillProcedureList not implemented!"
+        };
     }
 
     void FillTableIndex() const {

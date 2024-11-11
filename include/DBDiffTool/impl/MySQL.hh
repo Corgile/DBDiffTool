@@ -13,7 +13,8 @@ namespace db {
 namespace impl {
 class MySQL {
 public:
-    explicit MySQL(DBParam&& param) : param_{ std::move(param) } {
+    explicit MySQL(DBParam&& param)
+        : param_{ std::move(param) } {
         DBLayer_Init(param_);
         Module_Register(param_, INSTANCE(MySQL));
         connect_ = DBLayer_ApplyConn(INSTANCE(MySQL));

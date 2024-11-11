@@ -27,8 +27,9 @@ concept ConcreteDB = requires(T db, orm::type t) {
 template <ConcreteDB DataBase>
 class DataSource final {
 public:
-    explicit DataSource(DBParam&& param) :
-        db_type_{ param.db_type }, ds_impl_{ std::move(param) } {}
+    explicit DataSource(DBParam&& param)
+        : db_type_{ param.db_type }
+        , ds_impl_{ std::move(param) } {}
 
     ND std::string_view Name() const { return DataBase::Name(); }
 

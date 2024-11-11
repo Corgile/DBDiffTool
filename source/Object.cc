@@ -13,8 +13,8 @@ Schema::Schema() = default;
 void Schema::SetName(std::string_view name) { schema_name_ = name; }
 
 Table::Table(std::string_view table_name, std::string_view table_fields,
-             std::string_view field_types, std::string_view field_nulls) :
-    table_name_{ table_name } {
+             std::string_view field_types, std::string_view field_nulls)
+    : table_name_{ table_name } {
     std::vector<std::string> name_vec;
     std::vector<std::string> type_vec;
     std::vector<std::string> null_vec;

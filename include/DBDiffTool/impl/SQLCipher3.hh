@@ -13,7 +13,8 @@ namespace db {
 namespace impl {
 class SQLCipher3 {
 public:
-    explicit SQLCipher3(DBParam&& param) : param_{ std::move(param) } {
+    explicit SQLCipher3(DBParam&& param)
+        : param_{ std::move(param) } {
         DBLayer_Init(param_);
         Module_Register(param_, INSTANCE(SQLCipher3));
         connect_ = DBLayer_ApplyConn(INSTANCE(SQLCipher3));
@@ -35,27 +36,37 @@ private:
         static_cast<void>(schemas[0] = nullptr);
         static_cast<void>(orm_type);
         static_cast<void>(this);
-        throw std::runtime_error{ "SQLCipher3::FillTableList not implemented!" };
+        throw std::runtime_error{
+            "SQLCipher3::FillTableList not implemented!"
+        };
     }
 
     void FillSequenceList() const {
         static_cast<void>(this);
-        throw std::runtime_error{ "SQLCipher3::FillSequenceList not implemented!" };
+        throw std::runtime_error{
+            "SQLCipher3::FillSequenceList not implemented!"
+        };
     }
 
     void FillProcedureList() const {
         static_cast<void>(this);
-        throw std::runtime_error{ "SQLCipher3::FillProcedureList not implemented!" };
+        throw std::runtime_error{
+            "SQLCipher3::FillProcedureList not implemented!"
+        };
     }
 
     void FillTableIndex() const {
         static_cast<void>(this);
-        throw std::runtime_error{ "SQLCipher3::FillTableIndex not implemented!" };
+        throw std::runtime_error{
+            "SQLCipher3::FillTableIndex not implemented!"
+        };
     }
 
     void FillTableTrigger() const {
         static_cast<void>(this);
-        throw std::runtime_error{ "SQLCipher3::FillTableTrigger not implemented!" };
+        throw std::runtime_error{
+            "SQLCipher3::FillTableTrigger not implemented!"
+        };
     }
 
 private: // NOLINT

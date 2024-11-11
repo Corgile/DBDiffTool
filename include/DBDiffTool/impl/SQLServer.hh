@@ -13,7 +13,8 @@ namespace db {
 namespace impl {
 class SQLServer {
 public:
-    explicit SQLServer(DBParam&& param) : param_{ std::move(param) } {
+    explicit SQLServer(DBParam&& param)
+        : param_{ std::move(param) } {
         DBLayer_Init(param_);
         Module_Register(param_, INSTANCE(SQLServer));
         connect_ = DBLayer_ApplyConn(INSTANCE(SQLServer));
@@ -40,22 +41,30 @@ private:
 
     void FillSequenceList() const {
         static_cast<void>(this);
-        throw std::runtime_error{ "SQLServer::FillSequenceList not implemented!" };
+        throw std::runtime_error{
+            "SQLServer::FillSequenceList not implemented!"
+        };
     }
 
     void FillProcedureList() const {
         static_cast<void>(this);
-        throw std::runtime_error{ "SQLServer::FillProcedureList not implemented!" };
+        throw std::runtime_error{
+            "SQLServer::FillProcedureList not implemented!"
+        };
     }
 
     void FillTableIndex() const {
         static_cast<void>(this);
-        throw std::runtime_error{ "SQLServer::FillTableIndex not implemented!" };
+        throw std::runtime_error{
+            "SQLServer::FillTableIndex not implemented!"
+        };
     }
 
     void FillTableTrigger() const {
         static_cast<void>(this);
-        throw std::runtime_error{ "SQLServer::FillTableTrigger not implemented!" };
+        throw std::runtime_error{
+            "SQLServer::FillTableTrigger not implemented!"
+        };
     }
 
 private: // NOLINT

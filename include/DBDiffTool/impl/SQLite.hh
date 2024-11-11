@@ -18,7 +18,8 @@ namespace impl {
 namespace fs = std::filesystem;
 class SQLite {
 public:
-    explicit SQLite(DBParam&& param) : param_{ std::move(param) } {
+    explicit SQLite(DBParam&& param)
+        : param_{ std::move(param) } {
         InitDBFiles(param_.db_name);
     }
 
@@ -52,9 +53,9 @@ private: // NOLINT
                          orm::type const t) const {
         DBParam param{ param_ }; // make a copy for every thread.
         param.db_name = db_file.string();
-        int instanceId{};
-        DBLayer_Init(param, instanceId);
-        auto const conn{ DBLayer_ApplyConn(instanceId) };
+        DBLayer_Init(param);
+        Module_Register(param_, INSTANCE(SQLite));
+        auto const conn{ DBLayer_ApplyConn(INSTANCE(SQLite)) };
         auto const schema{ std::make_shared<Schema>() };
         schema->SetName(schema_name);
         // 第一级元数据

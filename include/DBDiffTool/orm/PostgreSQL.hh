@@ -85,7 +85,7 @@ SELECT
   MD5(pg_get_functiondef(p.oid)) AS procd_md5
 FROM pg_proc AS p
 JOIN pg_namespace AS n ON n.oid = p.pronamespace
-WHERE p.prokind = 'f' AND n.nspname NOT like 'pg_%' and ns.nspname <> 'information_schema'
+WHERE p.prokind = 'f' AND n.nspname NOT like 'pg_%' and n.nspname <> 'information_schema'
 ORDER BY LENGTH(n.nspname),schema_name,LENGTH(p.proname),procd_name;)" };
         return sql;
     }
