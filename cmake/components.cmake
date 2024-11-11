@@ -11,9 +11,14 @@ SET(components
     hpr/V1.1.15
     libxml/V2.9.12
 )
+IF ("x$ENV{HPT_REPOSITORY}" STREQUAL "x")
+  MESSAGE(FATAL_ERROR "需要配置一个环境变量 HPT_REPOSITORY")
+ENDIF ()
+
+SET(HIK_APP win64/release/hik.app)
 
 FOREACH(component ${components})
-  SET(full_path $ENV{HPT_DEPS}/${component})
+  SET(full_path $ENV{HPT_REPOSITORY}/${HIK_APP}/${component})
   MESSAGE(STATUS "${BLU}添加依赖 ${CYNB}[${component}]\t${BLUB} -> ${WHT}${full_path}${RST}")
   INCLUDE_DIRECTORIES(${full_path}/include)
   LINK_DIRECTORIES(${TARGET_NAME} PUBLIC ${full_path}/bin)
