@@ -53,9 +53,9 @@ private: // NOLINT
                          orm::type const t) const {
         DBParam param{ param_ }; // make a copy for every thread.
         param.db_name = db_file.string();
-        DBLayer_Init(param);
-        Module_Register(param_, INSTANCE(SQLite));
-        auto const conn{ DBLayer_ApplyConn(INSTANCE(SQLite)) };
+        int instanceId{};
+        DBLayer_Init(param, instanceId);
+        auto const conn{ DBLayer_ApplyConn(instanceId) };
         auto const schema{ std::make_shared<Schema>() };
         schema->SetName(schema_name);
         // 第一级元数据
