@@ -24,3 +24,7 @@ cmake.exe \
   -S .\DBDiffTool 
   -B .\build\release
 ```
+
+## 其他
+
+此仓库是作为备份的非完全开源项目，仅仅对部分人有用。
