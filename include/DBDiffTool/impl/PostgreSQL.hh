@@ -147,4 +147,3 @@ private: // NOLINT
 
 using namespace db::impl;
 } // namespace db
-
